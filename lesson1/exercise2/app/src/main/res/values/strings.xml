@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">exercise2</string>
+    <string name="url_hint_text">Enter url</string>
+    <string name="browser_button_text">Go to browser</string>
+    <string name="url_hint">Enter url address</string>
+    <string name="tel_hint">Enter telephone number</string>
+    <string name="tel_button_text">Call</string>
+    <string name="email_hint">Enter email address</string>
+    <string name="email_button_text">Send</string>
+    <string name="latitude_hint">Enter latitude</string>
+    <string name="longitude_hint">Enter longitude</string>
+    <string name="map_button">Find on map</string>
+</resources>

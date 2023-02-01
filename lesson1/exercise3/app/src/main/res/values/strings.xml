@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">exercise3</string>
+    <string name="text_input_hint">Name</string>
+    <string name="to_hello_activity_button_text">Hello Activity</string>
+</resources>
