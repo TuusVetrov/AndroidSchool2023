@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">exercise2</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btnFirstText">1</string>
+    <string name="btnSecondText">2</string>
+    <string name="btnThirdText">3</string>
+</resources>
