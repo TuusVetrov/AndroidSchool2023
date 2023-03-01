@@ -1,0 +1,17 @@
+<resources>
+    <style name="Base.V27.Theme"
+        parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:navigationBarColor">@color/black_20pc</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="Theme.Exercise1"
+        parent="Base.V27.Theme">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/smalt</item>
+        <item name="android:statusBarColor">@color/black_20pc</item>
+
+        <item name="textInputStyle">@style/Theme.Exercise1.TextInputLayout</item>
+        <item name="buttonStyle">@style/Theme.Exercise1.Button</item>
+    </style>
+</resources>
