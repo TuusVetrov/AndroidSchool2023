@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance" parent="android:TextAppearance" />
+
+    <style name="TextAppearance.H2">
+        <item name="android:textSize">@dimen/text_h2_size</item>
+        <item name="android:lineSpacingExtra">@dimen/text_h2_line</item>
+    </style>
+
+    <style name="TextAppearance.T1">
+        <item name="android:textSize">@dimen/text_t1_size</item>
+        <item name="android:lineSpacingExtra">@dimen/text_t1_line</item>
+    </style>
+
+    <style name="Theme.Exercise2.ShapeAppearanceButton"
+        parent="ShapeAppearance.Material3.Corner.Small">
+        <item name="cornerSize">@dimen/button_corners</item>
+    </style>
+
+    <style name="Theme.Exercise2.Button"
+        parent="Widget.Material3.Button">
+        <item name="android:textAppearance">
+            @style/TextAppearance.T1
+        </item>
+        <item name="shapeAppearance">
+            @style/Theme.Exercise2.ShapeAppearanceButton
+        </item>
+        <item name="android:paddingTop">@dimen/button_horizontal_paddings</item>
+        <item name="android:paddingBottom">@dimen/button_horizontal_paddings</item>
+    </style>
+</resources>

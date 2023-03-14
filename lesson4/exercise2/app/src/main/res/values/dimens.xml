@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="normal_100">8dp</dimen>
+    <dimen name="normal_200">16dp</dimen>
+    <dimen name="normal_300">32dp</dimen>
+
+    <dimen name="button_corners">10dp</dimen>
+    <dimen name="button_horizontal_paddings">13dp</dimen>
+
+    <dimen name="text_h2_size">24sp</dimen>
+    <dimen name="text_h2_line">32sp</dimen>
+    <dimen name="text_t1_size">16sp</dimen>
+    <dimen name="text_t1_line">24sp</dimen>
+</resources>
