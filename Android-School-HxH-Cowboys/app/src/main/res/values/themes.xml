@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.V27.Theme"
+        parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:navigationBarColor">@color/black_20pc</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="Theme.AndroidSchoolHxHCowboys" parent="Base.V27.Theme">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/smalt</item>
+        <item name="android:statusBarColor">@color/smaltOnSurface</item>
+
+        <item name="colorSurface">@color/smalt</item>
+        <item name="colorOnSurface">@color/smaltOnSurface</item>
+
+        <item name="materialButtonStyle">@style/Theme.AndroidSchoolHxHCowboys.Button</item>
+    </style>
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance" parent="android:TextAppearance" />
+
+    <style name="TextAppearance.TitleSmall">
+        <item name="android:textSize">@dimen/text_title_small</item>
+        <item name="android:lineSpacingExtra">@dimen/text_title_small_line_extra</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.Title6">
+        <item name="android:textSize">@dimen/text_title6</item>
+        <item name="android:lineSpacingExtra">@dimen/text_title6_extra</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.LabelMedium">
+        <item name="android:textSize">@dimen/text_label_medium</item>
+        <item name="android:lineSpacingExtra">@dimen/text_label_medium_line_extra</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+    
+    <style name="TitleTextView">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textAppearance">
+            @style/TextAppearance.TitleSmall
+        </item>
+    </style>
+
+    <style name="SubtitleTextView">
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textAppearance">
+            @style/TextAppearance.LabelMedium
+        </item>
+    </style>
+    
+    <style name="Theme.AndroidSchoolHxHCowboys.ShapeAppearanceSmall"
+        parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">@dimen/normal_100</item>
+    </style>
+
+    <style name="Theme.AndroidSchoolHxHCowboys.Button"
+        parent="Widget.Material3.Button">
+        <item name="shapeAppearance">
+            @style/Theme.AndroidSchoolHxHCowboys.ShapeAppearanceSmall
+        </item>
+    </style>
+
+    <style name="SmallIconButton"
+        parent="@style/Widget.Material3.Button.TextButton.Icon">
+        <item name="android:minHeight">28dip</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.LabelMedium</item>
+    </style>
+</resources>

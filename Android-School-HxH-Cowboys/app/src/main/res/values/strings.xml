@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Android-School-HxH-Cowboys</string>
+
+    <string name="error_loading_title">Произошла непредвиденная ошибка</string>
+    <string name="error_loading_description">Детальный текст ошибки, занимающий несколько строк</string>
+
+    <string name="empty_state_title">Товары не были обнаружены</string>
+    <string name="empty_state_description">Попробуйте обновить, вдруг товары появились</string>
+    <string name="update_button">Обновить</string>
+
+    <string name="stub_text">Text</string>
+    <string name="buy_button">купить</string>
+    <string name="product_preview_text">product preview</string>
+    <string name="menu_item_profile">Профиль</string>
+    <string name="catalog_title">Каталог</string>
+</resources>

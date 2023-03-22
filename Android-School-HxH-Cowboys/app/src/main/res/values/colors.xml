@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="smalt">#003594</color>
+    <color name="smaltOnSurface">#032768</color>
+    <color name="seashell">#f1f1f1</color>
+    <color name="silver_chalice">#a4a4a4</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#ffffffff</color>
+    
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#A4A4A4</color>
+    <color name="background">#F4F4F4</color>
+
+    <color name="black_20pc">#33000000</color>
+    <color name="white_50pc">#80ffffff</color>
+</resources>

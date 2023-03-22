@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/normal_200">
+
+    <ImageView
+        android:id="@+id/ivCatalogItemPreview"
+        android:layout_width="112dp"
+        android:layout_height="112dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/product_preview_text"
+         />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/TitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/normal_200"
+        android:layout_toEndOf="@+id/ivCatalogItemPreview"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="@string/stub_text" />
+
+    <TextView
+        android:id="@+id/tvCategory"
+        style="@style/SubtitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/normal_200"
+        android:layout_toEndOf="@+id/ivCatalogItemPreview"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/stub_text" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        style="@style/TitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buyButton"
+        android:layout_marginStart="@dimen/normal_200"
+        android:layout_toEndOf="@+id/ivCatalogItemPreview"
+        android:text="@string/stub_text" />
+
+    <Button
+        android:textStyle=""
+        android:id="@+id/buyButton"
+        style="@style/SmallIconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivCatalogItemPreview"
+        android:layout_alignParentEnd="true"
+        android:text="@string/buy_button"
+        app:icon="@drawable/shop_cart_icon"
+        app:iconSize="12dp" />
+</RelativeLayout>

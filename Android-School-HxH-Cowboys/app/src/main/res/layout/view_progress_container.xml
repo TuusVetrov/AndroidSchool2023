@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/layoutLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ProgressBar
+            android:id="@+id/progressBarContainer"
+            style="@style/Widget.Material3.CircularProgressIndicator.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/smalt"
+            android:indeterminateTintMode="src_in"
+            />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutNotice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginHorizontal="@dimen/normal_400"
+        >
+
+        <ImageView
+            android:id="@+id/imageViewNotice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/img_logo" />
+
+        <TextView
+            style="@style/TextAppearance.TitleSmall"
+            android:textColor="@color/text_secondary"
+            android:id="@+id/textViewNoticeMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_300"
+            android:text="@string/error_loading_title" />
+
+        <TextView
+            style="@style/TextAppearance.LabelMedium"
+            android:textColor="@color/text_secondary"
+            android:gravity="center"
+            android:id="@+id/textViewNoticeDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_loading_description"
+            android:layout_marginTop="@dimen/normal_100"
+            />
+
+        <Button
+            android:id="@+id/buttonNoticeUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/update_button"
+            android:layout_marginTop="@dimen/normal_400"
+            android:textAllCaps="true"
+            />
+    </LinearLayout>
+</merge>
