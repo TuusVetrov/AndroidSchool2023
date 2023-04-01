@@ -3,7 +3,7 @@ package com.example.hxh_project.data.repository
 import com.example.hxh_project.domain.model.Product
 import kotlinx.coroutines.delay
 
-class MockRepository {
+class CatalogRepository {
     private var products = mutableListOf<Product>()
 
     private val titles = mutableListOf(

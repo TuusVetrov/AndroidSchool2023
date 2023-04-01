@@ -14,5 +14,6 @@
         <item name="colorOnSurface">@color/smaltOnSurface</item>
 
         <item name="materialButtonStyle">@style/Theme.AndroidSchoolHxHCowboys.Button</item>
+        <item name="textInputStyle">@style/Theme.AndroidSchoolHxHCowboys.TextInputLayout</item>
     </style>
 </resources>

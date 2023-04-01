@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/background"
+    tools:context=".presentation.ui.profile.ProfileFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarProfile"
+            style="Widget.Material3.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
+            app:titleTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.example.hxh_project.presentation.components.ProfileContainer
+        android:id="@+id/profileContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <TextView
+        android:id="@+id/tvAppVersion"
+        style="@style/TextAppearance.TitleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/normal_200"
+        android:textColor="@color/text_secondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        style="@style/ProfileButton"
+        android:id="@+id/btnOrders"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/normal_200"
+        android:layout_marginTop="@dimen/normal_200"
+        android:drawableTop="@drawable/ic_delivery"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:text="@string/btn_orders_text"
+        app:layout_constraintEnd_toStartOf="@+id/btnSettings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileContainer" />
+
+    <Button
+        style="@style/ProfileButton"
+        android:id="@+id/btnSettings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/normal_200"
+        android:layout_marginTop="@dimen/normal_200"
+        android:layout_marginEnd="@dimen/normal_200"
+        android:drawableTop="@drawable/ic_settings"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:text="@string/btn_settings_text"
+        app:layout_constraintEnd_toStartOf="@+id/btnLogOut"
+        app:layout_constraintStart_toEndOf="@+id/btnOrders"
+        app:layout_constraintTop_toBottomOf="@+id/profileContainer" />
+
+    <Button
+        style="@style/ProfileButton"
+        android:id="@+id/btnLogOut"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_200"
+        android:layout_marginEnd="@dimen/normal_200"
+        android:drawableTop="@drawable/ic_logout"
+        android:backgroundTint="@color/error"
+        android:textColor="@color/white"
+        android:text="@string/btn_logout_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSettings"
+        app:layout_constraintTop_toBottomOf="@+id/profileContainer" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

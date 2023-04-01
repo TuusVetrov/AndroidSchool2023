@@ -44,6 +44,6 @@ class ProgressButton @JvmOverloads constructor(
 
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)
-
+        button.setOnClickListener(l)
     }
 }

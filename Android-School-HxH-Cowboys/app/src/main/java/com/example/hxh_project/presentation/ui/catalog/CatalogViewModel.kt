@@ -3,14 +3,16 @@ package com.example.hxh_project.presentation.ui.catalog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hxh_project.R
-import com.example.hxh_project.data.repository.MockRepository
+import com.example.hxh_project.data.repository.CatalogRepository
 import com.example.hxh_project.domain.model.Product
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 sealed class UiState {
     object Loading: UiState()
@@ -20,11 +22,14 @@ sealed class UiState {
     data class Success(val data: List<Product>): UiState()
 }
 
-class CatalogViewModel: ViewModel() {
+@HiltViewModel
+class CatalogViewModel @Inject constructor(
+    private val catalogRepository: CatalogRepository,
+) : ViewModel() {
+
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
     val uiState: StateFlow<UiState> = _uiState
 
-    private val mockRepository = MockRepository()
 
     private val handlerException = CoroutineExceptionHandler { _, throwable ->
         _uiState.update {
@@ -42,7 +47,7 @@ class CatalogViewModel: ViewModel() {
         }
         viewModelScope.launch(handlerException) {
             val productsDeferred = async {
-                mockRepository.getProducts()
+                catalogRepository.getProducts()
             }
 
             val products = productsDeferred.await().getOrThrow()

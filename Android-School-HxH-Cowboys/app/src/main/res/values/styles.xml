@@ -8,6 +8,30 @@
         <item name="fontFamily">sans-serif-medium</item>
     </style>
 
+    <style name="TextAppearance.HeadlineLarge">
+        <item name="android:textSize">@dimen/text_headline_large</item>
+        <item name="android:lineSpacingExtra">@dimen/text_headline_large_line_extra</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+    <style name="TextAppearance.HeadlineSmall">
+        <item name="android:textSize">@dimen/text_headline_small</item>
+        <item name="android:lineSpacingExtra">@dimen/text_headline_small_line_extra</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.BodyLarge">
+        <item name="android:textSize">@dimen/text_body_large</item>
+        <item name="android:lineSpacingExtra">@dimen/text_body_large_extra</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.BodySmall">
+        <item name="android:textSize">@dimen/text_body_small</item>
+        <item name="android:lineSpacingExtra">@dimen/text_body_small_extra</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
     <style name="TextAppearance.Title6">
         <item name="android:textSize">@dimen/text_title6</item>
         <item name="android:lineSpacingExtra">@dimen/text_title6_extra</item>
@@ -43,6 +67,47 @@
         parent="Widget.Material3.Button">
         <item name="shapeAppearance">
             @style/Theme.AndroidSchoolHxHCowboys.ShapeAppearanceSmall
+        </item>
+    </style>
+
+    <style name="Theme.AndroidSchoolHxHCowboys.ShapeAppearanceTextInputLayout"
+        parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">@dimen/normal_200</item>
+    </style>
+
+    <style name="Theme.AndroidSchoolHxHCowboys.TextInputLayout"
+        parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/seashell</item>
+        <item name="boxStrokeColor">@color/text_field_box_stroke_color</item>
+        <item name="shapeAppearance">
+            @style/Theme.AndroidSchoolHxHCowboys.ShapeAppearanceTextInputLayout
+        </item>
+        <item name="android:textAppearance">
+            @style/TextAppearance.BodyLarge
+        </item>
+        <item name="hintTextAppearance">
+            @style/TextAppearance.BodySmall
+        </item>
+        <item name="android:textColorHint">@color/silver_chalice</item>
+        <item name="hintTextColor">@color/silver_chalice</item>
+        <item name="endIconTint">@color/black</item>
+    </style>
+
+    <style name="Theme.AndroidSchoolHxHCowboys.ProfileButtonShapeAppearance"
+        parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">@dimen/normal_200</item>
+    </style>
+
+    <style name="ProfileButton"
+        parent="@style/Widget.Material3.Button">
+        <item name="android:paddingTop">@dimen/normal_300</item>
+        <item name="android:paddingBottom">@dimen/normal_300</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.BodySmall</item>
+        <item name="shapeAppearance">
+            @style/Theme.AndroidSchoolHxHCowboys.ProfileButtonShapeAppearance
         </item>
     </style>
 

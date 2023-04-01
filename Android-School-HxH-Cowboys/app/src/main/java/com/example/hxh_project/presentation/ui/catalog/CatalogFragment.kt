@@ -3,6 +3,8 @@ package com.example.hxh_project.presentation.ui.catalog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,15 +12,19 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hxh_project.R
 import com.example.hxh_project.databinding.FragmentCatalogBinding
+import com.example.hxh_project.domain.model.Profile
 import com.example.hxh_project.presentation.components.ProgressContainer
 import com.example.hxh_project.presentation.ui.catalog.item_decoration.DividerItemDecoration
 import com.example.hxh_project.presentation.ui.catalog.item_decoration.MarginItemDecoration
+import com.example.hxh_project.presentation.ui.profile.ProfileFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class CatalogFragment : Fragment() {
     private lateinit var binding: FragmentCatalogBinding
     private val productsAdapter by lazy { CatalogAdapter() }
+
     private val catalogViewModel: CatalogViewModel by viewModels()
 
     override fun onCreateView(
@@ -87,12 +93,20 @@ class CatalogFragment : Fragment() {
         binding.toolbarCatalog.setOnMenuItemClickListener {
             when(it.itemId) {
                 R.id.profileIcon -> {
+                    onProfileClick()
                     true
                 }
                 else -> {
                     false
                 }
             }
+        }
+    }
+
+    private fun onProfileClick() {
+        parentFragmentManager.commit {
+            replace<ProfileFragment>(R.id.main_activity_container)
+            addToBackStack(null)
         }
     }
 

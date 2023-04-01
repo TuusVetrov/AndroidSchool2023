@@ -13,4 +13,20 @@
     <string name="product_preview_text">product preview</string>
     <string name="menu_item_profile">Профиль</string>
     <string name="catalog_title">Каталог</string>
+
+    <string name="sign_in">Войти</string>
+
+    <string name="sign_in_title">@string/sign_in</string>
+    <string name="sign_in_login_hint">Логин</string>
+    <string name="sign_in_password_hint">Пароль</string>
+    <string name="sign_in_action">@string/sign_in</string>
+
+    <string name="app_version">Приложение</string>
+
+    <string name="field_text_error">Поле заполнено неверно</string>
+    <string name="btn_orders_text">Мои заказы</string>
+    <string name="btn_settings_text">Настройки</string>
+    <string name="btn_logout_text">Выйти</string>
+    <string name="btn_cancel_text">Отмена</string>
+    <string name="exit_dialog_message">Вы уверены, что хотите выйти?</string>
 </resources>
