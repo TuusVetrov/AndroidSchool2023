@@ -8,7 +8,6 @@
     <style name="Theme.AndroidSchoolHxHCowboys" parent="Base.V27.Theme">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/smalt</item>
-        <item name="android:statusBarColor">@color/smaltOnSurface</item>
 
         <item name="colorSurface">@color/smalt</item>
         <item name="colorOnSurface">@color/smaltOnSurface</item>

@@ -12,7 +12,9 @@ import com.example.hxh_project.databinding.ProductItemBinding
 import com.example.hxh_project.domain.model.Product
 import java.util.*
 
-class CatalogAdapter(): RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder>() {
+class CatalogAdapter(
+    private val onItemClickListener: (Product) -> Unit
+): RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder>() {
     private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
     fun submitList(products: List<Product>) {
         differ.submitList(products)
@@ -29,20 +31,22 @@ class CatalogAdapter(): RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder>()
         )
 
     override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
-        holder.bind(differ.currentList[position])
+        holder.bind(differ.currentList[position], onItemClickListener)
     }
 
     inner class CatalogViewHolder(private val itemBinding: ProductItemBinding) :
             RecyclerView.ViewHolder(itemBinding.root) {
 
                 @SuppressLint("SetTextI18n")
-                fun bind(product: Product) = with(itemBinding) {
+                fun bind(product: Product, onItemClickListener: (Product) -> Unit) = with(itemBinding) {
                     tvTitle.text = product.title
-                    tvCategory.text = product.category
-                    tvPrice.text = "${product.price} ₽"
+                    tvCategory.text = product.department
+                    tvPrice.text =
+                        String.format("%,d ₽", product.price).replace(",", " ")
                     ivCatalogItemPreview.load(product.previewImage) {
                         transformations(RoundedCornersTransformation(20f))
                     }
+                    root.setOnClickListener { onItemClickListener(product) }
                 }
             }
 }

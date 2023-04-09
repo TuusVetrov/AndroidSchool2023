@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/tvAppVersion"
-        style="@style/TextAppearance.TitleSmall"
+        style="@style/TextAppearance.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/normal_200"

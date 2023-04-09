@@ -1,8 +1,10 @@
 package com.example.hxh_project.di
 
 import android.content.Context
+import com.example.hxh_project.data.repository.CatalogRepository
 import com.example.hxh_project.data.repository.UserRepository
 import com.example.hxh_project.domain.model.Profile
+import com.example.hxh_project.domain.use_case.ProductUseCase
 import com.example.hxh_project.domain.use_case.ProfileUseCase
 import com.example.hxh_project.domain.use_case.SignInUseCase
 import dagger.Module
@@ -17,6 +19,10 @@ class DomainModule {
     @Provides
     fun provideSignInUseCase(userRepository: UserRepository): SignInUseCase =
         SignInUseCase(userRepository)
+
+    @Provides
+    fun provideProductUseCase(catalogRepository: CatalogRepository): ProductUseCase =
+        ProductUseCase(catalogRepository)
 
     @Provides
     fun provideProfileUseCase(userRepository: UserRepository,

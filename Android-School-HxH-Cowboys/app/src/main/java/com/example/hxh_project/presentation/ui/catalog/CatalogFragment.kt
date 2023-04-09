@@ -12,10 +12,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hxh_project.R
 import com.example.hxh_project.databinding.FragmentCatalogBinding
-import com.example.hxh_project.domain.model.Profile
 import com.example.hxh_project.presentation.components.ProgressContainer
 import com.example.hxh_project.presentation.ui.catalog.item_decoration.DividerItemDecoration
 import com.example.hxh_project.presentation.ui.catalog.item_decoration.MarginItemDecoration
+import com.example.hxh_project.presentation.ui.product.ProductFragment
 import com.example.hxh_project.presentation.ui.profile.ProfileFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CatalogFragment : Fragment() {
     private lateinit var binding: FragmentCatalogBinding
-    private val productsAdapter by lazy { CatalogAdapter() }
+    private lateinit var productsAdapter: CatalogAdapter
 
     private val catalogViewModel: CatalogViewModel by viewModels()
 
@@ -54,6 +54,10 @@ class CatalogFragment : Fragment() {
             setMarginHorizontal(16)
         }
 
+        productsAdapter = CatalogAdapter { product ->
+            onItemClick(product.id, product.title)
+        }
+
         binding.rvCatalog.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = productsAdapter
@@ -65,7 +69,7 @@ class CatalogFragment : Fragment() {
     private fun viewModelObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                catalogViewModel.uiState.collect() {
+                catalogViewModel.uiState.collect {
                     when(it){
                         is UiState.Loading -> {
                             binding.progressContainer.state = ProgressContainer.State.Loading
@@ -103,15 +107,18 @@ class CatalogFragment : Fragment() {
         }
     }
 
+    private fun onItemClick(productId: String, productName: String) {
+        val fragment = ProductFragment.newInstance(productId, productName)
+        parentFragmentManager.commit {
+            replace(R.id.main_activity_container, fragment)
+            addToBackStack(null)
+        }
+    }
+
     private fun onProfileClick() {
         parentFragmentManager.commit {
             replace<ProfileFragment>(R.id.main_activity_container)
             addToBackStack(null)
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = CatalogFragment()
     }
 }

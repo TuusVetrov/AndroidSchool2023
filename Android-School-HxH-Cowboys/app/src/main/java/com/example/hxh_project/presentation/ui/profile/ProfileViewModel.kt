@@ -24,7 +24,7 @@ class ProfileViewModel @Inject constructor(
     private val profileUseCase: ProfileUseCase
 ): ViewModel() {
 
-    private val _uiState: MutableStateFlow<State<ProfileData>> = MutableStateFlow(State.idle())
+    private val _uiState: MutableStateFlow<State<ProfileData>> = MutableStateFlow(State.init())
     val uiState: StateFlow<State<ProfileData>> = _uiState
 
     fun getData() {

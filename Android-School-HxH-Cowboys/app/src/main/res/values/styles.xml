@@ -2,23 +2,42 @@
 <resources>
     <style name="TextAppearance" parent="android:TextAppearance" />
 
-    <style name="TextAppearance.TitleSmall">
-        <item name="android:textSize">@dimen/text_title_small</item>
-        <item name="android:lineSpacingExtra">@dimen/text_title_small_line_extra</item>
+    <style name="TextAppearance.Title">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:lineSpacingExtra">@dimen/text_title_line_extra</item>
         <item name="fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="TextAppearance.HeadlineLarge">
-        <item name="android:textSize">@dimen/text_headline_large</item>
-        <item name="android:lineSpacingExtra">@dimen/text_headline_large_line_extra</item>
+    <style name="TextAppearance.Subtitle">
+        <item name="android:textSize">@dimen/text_subtitle</item>
+        <item name="android:lineSpacingExtra">@dimen/text_subtitle_line_extra</item>
         <item name="fontFamily">sans-serif</item>
     </style>
 
-    <style name="TextAppearance.HeadlineSmall">
-        <item name="android:textSize">@dimen/text_headline_small</item>
-        <item name="android:lineSpacingExtra">@dimen/text_headline_small_line_extra</item>
+    <style name="TextAppearance.Body">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:lineSpacingExtra">@dimen/text_body_line_extra</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+    <style name="TextAppearance.H1">
+        <item name="android:textSize">@dimen/text_h1</item>
+        <item name="android:lineSpacingExtra">@dimen/text_h1_line_extra</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+    <style name="TextAppearance.H2">
+        <item name="android:textSize">@dimen/text_h2</item>
+        <item name="android:lineSpacingExtra">@dimen/text_h2_line_extra</item>
         <item name="fontFamily">sans-serif-medium</item>
     </style>
+
+    <style name="TextAppearance.H3">
+        <item name="android:textSize">@dimen/text_h3</item>
+        <item name="android:lineSpacingExtra">@dimen/text_h3_line_extra</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
 
     <style name="TextAppearance.BodyLarge">
         <item name="android:textSize">@dimen/text_body_large</item>
@@ -32,32 +51,12 @@
         <item name="fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="TextAppearance.Title6">
-        <item name="android:textSize">@dimen/text_title6</item>
-        <item name="android:lineSpacingExtra">@dimen/text_title6_extra</item>
-        <item name="fontFamily">sans-serif-medium</item>
-    </style>
-
     <style name="TextAppearance.LabelMedium">
         <item name="android:textSize">@dimen/text_label_medium</item>
         <item name="android:lineSpacingExtra">@dimen/text_label_medium_line_extra</item>
         <item name="fontFamily">sans-serif</item>
     </style>
-    
-    <style name="TitleTextView">
-        <item name="android:textColor">@color/text_primary</item>
-        <item name="android:textAppearance">
-            @style/TextAppearance.TitleSmall
-        </item>
-    </style>
 
-    <style name="SubtitleTextView">
-        <item name="android:textColor">@color/text_secondary</item>
-        <item name="android:textAppearance">
-            @style/TextAppearance.LabelMedium
-        </item>
-    </style>
-    
     <style name="Theme.AndroidSchoolHxHCowboys.ShapeAppearanceSmall"
         parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerSize">@dimen/normal_100</item>

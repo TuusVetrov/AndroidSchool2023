@@ -52,9 +52,9 @@ class CatalogViewModel @Inject constructor(
 
             val products = productsDeferred.await().getOrThrow()
 
-            if (products.isNotEmpty()) {
+            if (products.products.isNotEmpty()) {
                 _uiState.update {
-                    UiState.Success(products)
+                    UiState.Success(products.products)
                 }
             } else {
                 _uiState.update {

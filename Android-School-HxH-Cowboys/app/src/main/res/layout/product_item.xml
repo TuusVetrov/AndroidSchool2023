@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        style="@style/TitleTextView"
+        android:textAppearance="@style/TextAppearance.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -29,7 +29,8 @@
 
     <TextView
         android:id="@+id/tvCategory"
-        style="@style/SubtitleTextView"
+        android:textAppearance="@style/TextAppearance.Subtitle"
+        android:textColor="@color/text_secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
@@ -42,7 +43,7 @@
 
     <TextView
         android:id="@+id/tvPrice"
-        style="@style/TitleTextView"
+        android:textAppearance="@style/TextAppearance.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/buyButton"

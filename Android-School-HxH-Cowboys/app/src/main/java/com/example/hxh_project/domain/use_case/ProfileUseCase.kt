@@ -12,7 +12,7 @@ class ProfileUseCase(
     private val repository: UserRepository,
     @ApplicationContext private val context: Context,
 ) {
-    fun getAppVersion(): String {
+     fun getAppVersion(): String {
         val packageManager = context.packageManager
         val packageName = context.packageName
         val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

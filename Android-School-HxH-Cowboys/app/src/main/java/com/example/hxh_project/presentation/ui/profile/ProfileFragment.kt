@@ -62,7 +62,7 @@ class ProfileFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 profileViewModel.uiState.collect() {
                     when(it){
-                        is State.Idle -> {}
+                        is State.Init -> {}
                         is State.Loading -> {
                         }
                         is State.Success -> {
@@ -79,10 +79,7 @@ class ProfileFragment : Fragment() {
 
     private fun toolBarMenuLister() {
         binding.toolbarProfile.setNavigationOnClickListener {
-            parentFragmentManager.commit {
-                replace<CatalogFragment>(R.id.main_activity_container)
-                addToBackStack(null)
-            }
+            parentFragmentManager.popBackStack()
         }
     }
 

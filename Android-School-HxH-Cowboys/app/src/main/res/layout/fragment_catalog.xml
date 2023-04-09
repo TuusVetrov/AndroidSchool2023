@@ -18,6 +18,7 @@
             android:layout_height="?attr/actionBarSize"
             style="Widget.Material3.Toolbar"
             app:titleTextColor="@color/white"
+            app:titleTextAppearance="@style/TextAppearance.H3"
             app:title="@string/catalog_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -32,6 +33,4 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.example.hxh_project.presentation.components.ProgressContainer>
-
-
 </LinearLayout>

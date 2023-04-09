@@ -63,7 +63,7 @@ class SignInFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 signInViewModel.uiState.collect() {
                     when(it){
-                        is State.Idle -> {}
+                        is State.Init -> {}
                         is State.Loading -> {
                             binding.buttonSignIn.isLoading = true
                         }
