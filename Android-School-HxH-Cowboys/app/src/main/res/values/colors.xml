@@ -14,6 +14,8 @@
 
     <color name="error">#ED4337</color>
 
+    <color name="green">#4CAF50</color>
+
     <color name="black_20pc">#33000000</color>
     <color name="white_50pc">#80ffffff</color>
 </resources>

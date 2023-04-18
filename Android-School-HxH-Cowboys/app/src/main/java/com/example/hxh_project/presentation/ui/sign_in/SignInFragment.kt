@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
@@ -39,10 +40,18 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModelObserver(view)
-        
+        observeState()
+
+        binding.textLogin.addTextChangedListener {
+            signInViewModel.setEmail(it.toString())
+        }
+
+        binding.textPassword.addTextChangedListener {
+            signInViewModel.setPassword(it.toString())
+        }
+
         binding.buttonSignIn.setOnClickListener {
-            onLoginClicked()
+            signInViewModel.login()
         }
 
         binding.textPassword.setOnEditorActionListener {  _, actionId, event ->
@@ -50,7 +59,7 @@ class SignInFragment : Fragment() {
                 event.action == KeyEvent.ACTION_DOWN &&
                 event.keyCode == KeyEvent.KEYCODE_ENTER
             ){
-                onLoginClicked()
+                signInViewModel.login()
                 true
             } else {
                 false
@@ -58,63 +67,42 @@ class SignInFragment : Fragment() {
         }
     }
 
-    private fun viewModelObserver(view: View) {
+    private fun signInStateHandler(state: SignInState) {
+        binding.layoutLogin.error = getString(R.string.error_message_email_invalid)
+        binding.layoutLogin.isErrorEnabled = state.isValidEmail == false
+
+        binding.layoutPassword.error = getString(R.string.error_message_password_invalid)
+        binding.layoutPassword.isErrorEnabled = state.isValidPassword == false
+
+        if (state.isLoggedIn) {
+            navigateToCatalog()
+        }
+
+        val errorMessage = state.error
+        if (errorMessage != null) {
+            val message = getString(R.string.error_loading_title) + "\n" + errorMessage
+            view?.let {
+                Snackbar.make(it, message, Snackbar.LENGTH_SHORT).apply {
+                    setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.error))
+                    animationMode = Snackbar.ANIMATION_MODE_FADE
+                    show()
+                }
+            }
+        }
+        signInViewModel.clearError()
+    }
+
+    private fun observeState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                signInViewModel.uiState.collect() {
-                    when(it){
-                        is State.Init -> {}
-                        is State.Loading -> {
-                            binding.buttonSignIn.isLoading = true
-                        }
-                        is State.Success -> {
-                            onAuthSuccess()
-                        }
-                        is State.Error -> {
-                            onAuthError(view)
-                        }
-                    }
+                signInViewModel.uiState.collect {
+                    signInStateHandler(it)
                 }
             }
         }
     }
 
-    private fun validate(email: String, password: String): Boolean {
-        return with(binding) {
-            when {
-                !AuthValidator.isEmailValid(email) -> {
-                    layoutLogin.error = getString(R.string.field_text_error)
-                    false
-                }
-                !AuthValidator.isPasswordValid(password) -> {
-                    layoutPassword.error = getString(R.string.field_text_error)
-                    false
-                }
-
-                else -> true
-            }
-        }
-    }
-
-    private fun onLoginClicked() {
-        val email = binding.textLogin.text.toString()
-        val password = binding.textPassword.text.toString()
-
-        if (validate(email, password)) {
-            signInViewModel.login(email, password)
-        }
-    }
-
-    private fun onAuthError(view: View) {
-        val message = getString(R.string.error_loading_title) +
-                "\n" + getString(R.string.error_loading_description)
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG).apply {
-            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.error))
-            show()
-        }
-    }
-
-    private fun onAuthSuccess() {
+    private fun navigateToCatalog() {
         parentFragmentManager.commit {
             replace<CatalogFragment>(R.id.main_activity_container)
             addToBackStack(null)

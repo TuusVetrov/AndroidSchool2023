@@ -1,8 +1,11 @@
 package com.example.hxh_project.domain.model.response
 
+import com.example.hxh_project.domain.model.Profile
+
 data class GetUserResponse(
-    val name: String,
-    val surname: String,
-    val occupation: String,
-    val avatarUrl: String,
-)
+    val data: Data,
+){
+    data class Data(
+        val profile: Profile
+    )
+}

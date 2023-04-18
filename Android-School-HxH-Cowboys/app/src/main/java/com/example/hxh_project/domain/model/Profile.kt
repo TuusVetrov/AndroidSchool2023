@@ -4,5 +4,5 @@ data class Profile(
     val name: String,
     val surname: String,
     val occupation: String,
-    val avatarUrl: String,
+    val avatarId: String,
 )

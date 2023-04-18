@@ -1,6 +1,6 @@
 package com.example.hxh_project.domain.model.request
 
 data class AuthRequest(
-    val login: String,
+    val email: String,
     val password: String,
 )

@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.pm.PackageInfoCompat
+import com.example.hxh_project.data.remote.utils.ApiState
 import com.example.hxh_project.domain.model.response.GetUserResponse
 import com.example.hxh_project.data.repository.UserRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class ProfileUseCase(
+class ProfileUseCase @Inject constructor(
     private val repository: UserRepository,
     @ApplicationContext private val context: Context,
 ) {
@@ -23,8 +25,8 @@ class ProfileUseCase(
         return "${packageInfo.versionName} (${PackageInfoCompat.getLongVersionCode(packageInfo)})"
     }
 
-    suspend fun getProfile(): Result<GetUserResponse> {
-        return repository.getUser()
+    suspend fun getProfile(): ApiState<GetUserResponse> {
+        return repository.getProfile()
     }
 
     suspend fun logOut(): Boolean {

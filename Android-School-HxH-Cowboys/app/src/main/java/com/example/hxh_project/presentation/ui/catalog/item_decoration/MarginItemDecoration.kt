@@ -6,26 +6,17 @@ import android.graphics.*
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hxh_project.R
 
 class MarginItemDecoration(
     private val context: Context,
 ) : RecyclerView.ItemDecoration() {
 
-    private val paintMarginBody = Paint()
-    private var margin = 0
-    private var cornerRadius = 0f
-
-    fun setColor(colorId: Int) {
-        this.paintMarginBody.apply { color = ContextCompat.getColor(context, colorId) }
+    private val paintMarginBody = Paint().apply {
+        color = ContextCompat.getColor(context, R.color.white)
     }
-
-    fun setMargin(dp: Int) {
-        this.margin = dpToPx(dp)
-    }
-
-    fun setCornerRadius(dp: Int) {
-        this.cornerRadius = dpToPx(dp).toFloat()
-    }
+    private var margin = context.resources.getDimension(R.dimen.normal_200)
+    private var cornerRadius = context.resources.getDimension(R.dimen.normal_200)
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val childCount = parent.childCount
@@ -37,7 +28,7 @@ class MarginItemDecoration(
             if (position == 0) {
                 c.drawRect(
                     child.left.toFloat(),
-                    (child.top - margin).toFloat(),
+                    (child.top - margin),
                     child.right.toFloat(),
                     child.top.toFloat(),
                     paintMarginBody
@@ -49,7 +40,7 @@ class MarginItemDecoration(
                     child.left.toFloat(),
                     child.bottom.toFloat() - cornerRadius,
                     child.right.toFloat(),
-                    (child.bottom + margin).toFloat()
+                    (child.bottom + margin)
                 )
                 c.drawRoundRect(rectF, cornerRadius, cornerRadius, paintMarginBody)
             }
@@ -67,15 +58,11 @@ class MarginItemDecoration(
         val position = parent.getChildAdapterPosition(view)
 
         if (position == 0) {
-            outRect.top = margin
+            outRect.top = margin.toInt()
         }
 
         if (position == parent.adapter?.itemCount?.minus(1)) {
-            outRect.bottom = margin
+            outRect.bottom = margin.toInt()
         }
-    }
-
-    private fun dpToPx(dp: Int): Int {
-        return (dp * Resources.getSystem().displayMetrics.density).toInt()
     }
 }

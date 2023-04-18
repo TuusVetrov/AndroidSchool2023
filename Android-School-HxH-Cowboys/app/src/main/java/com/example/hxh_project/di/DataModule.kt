@@ -1,5 +1,8 @@
 package com.example.hxh_project.di
 
+import com.example.hxh_project.data.remote.api.AuthService
+import com.example.hxh_project.data.remote.api.ProductService
+import com.example.hxh_project.data.remote.api.UserProfileService
 import com.example.hxh_project.data.repository.CatalogRepository
 import com.example.hxh_project.data.repository.UserRepository
 import dagger.Module
@@ -13,9 +16,11 @@ import javax.inject.Singleton
 class DataModule {
     @Provides
     @Singleton
-    fun provideUserRepository(): UserRepository = UserRepository()
+    fun provideUserRepository(authService: AuthService, userProfileService: UserProfileService): UserRepository =
+        UserRepository(authService, userProfileService)
 
     @Provides
     @Singleton
-    fun provideCatalogRepository(): CatalogRepository = CatalogRepository()
+    fun provideCatalogRepository(productService: ProductService): CatalogRepository =
+        CatalogRepository(productService)
 }

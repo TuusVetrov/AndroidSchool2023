@@ -2,11 +2,11 @@ package com.example.hxh_project.presentation.ui.product
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.*
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -21,8 +21,11 @@ import com.example.hxh_project.presentation.ui.product.adapters.ImagePagerAdapte
 import com.example.hxh_project.presentation.ui.product.adapters.PeculiaritiesAdapter
 import com.example.hxh_project.presentation.ui.product.adapters.PreviewAdapter
 import com.example.hxh_project.presentation.ui.product.adapters.ProductSizeAdapter
+import com.example.hxh_project.presentation.ui.profile.ProfileState
+import com.example.hxh_project.presentation.ui.sign_in.SignInFragment
 import com.example.hxh_project.utils.State
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,6 +54,9 @@ class ProductFragment : Fragment() {
             productId = it.getString(ARG_PRODUCT_ID)
             productName = it.getString(ARG_PRODUCT_NAME)
         }
+
+       productId?.let { productViewModel.setProductId(it) }
+        productViewModel.getProduct()
     }
 
     override fun onCreateView(
@@ -64,8 +70,7 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolBarMenuLister()
-        productName?.let { binding.toolbarProductLayout.title = it }
-        productId?.let { productViewModel.getProduct(it) }
+        productName?.let { binding.toolbarProduct.title = it }
         viewModelObserver()
 
         val selectedItemDecoration =
@@ -106,19 +111,31 @@ class ProductFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 productViewModel.uiState.collect() {
-                    when(it){
-                        is State.Init -> {}
-                        is State.Loading -> {
-                            binding.progressContainer.state = ProgressContainer.State.Loading
-                        }
-                        is State.Success -> {
-                            onSuccess(it.data.product)
-                        }
-                        is State.Error -> {
-                            onError()
-                        }
-                    }
+                    productStateHandler(it)
                 }
+            }
+        }
+    }
+
+    private fun productStateHandler(state: ProductState) {
+        if (state.isUserLoggedIn == false) {
+            navToLogIn()
+        }
+
+        if (state.isLoading) {
+            binding.progressContainer.state = ProgressContainer.State.Loading
+        }
+
+        state.product?.let { onSuccess(it) }
+
+        val errorMessage = state.error
+        if (errorMessage != null) {
+            binding.progressContainer.state = ProgressContainer.State.Notice(
+                R.drawable.img_logo,
+                R.string.error_loading_title,
+                R.string.error_loading_description,
+            ){
+                 productViewModel.getProduct()
             }
         }
     }
@@ -132,6 +149,8 @@ class ProductFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun onSuccess(data: Product) {
+        binding.progressContainer.state = ProgressContainer.State.Success
+
         binding.productScroll.tvProductPrice.text =
             String.format("%,d ₽", data.price).replace(",", " ")
         binding.productScroll.tvProductTitle.text = data.title
@@ -149,17 +168,6 @@ class ProductFragment : Fragment() {
         peculiaritiesAdapter = PeculiaritiesAdapter(data.details)
 
         initAdapters()
-        binding.progressContainer.state = ProgressContainer.State.Success
-    }
-
-    private fun onError() {
-        binding.progressContainer.state = ProgressContainer.State.Notice(
-            R.drawable.img_logo,
-            R.string.error_loading_title,
-            R.string.error_loading_description,
-        ){
-            productId?.let { it1 -> productViewModel.getProduct(it1) }
-        }
     }
 
     private fun initAdapters() {
@@ -172,6 +180,13 @@ class ProductFragment : Fragment() {
     private fun toolBarMenuLister() {
         binding.toolbarProduct.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+    }
+
+    private fun navToLogIn() {
+        parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        parentFragmentManager.commit {
+            replace<SignInFragment>(R.id.main_activity_container)
         }
     }
 

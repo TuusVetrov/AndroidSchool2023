@@ -1,53 +1,43 @@
 package com.example.hxh_project.presentation.ui.catalog.item_decoration
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hxh_project.R
 
-class DividerItemDecoration(
+class DividerDecoration(
     private val context: Context,
 ) : RecyclerView.ItemDecoration() {
 
-    private val paintDivider = Paint()
-
-    private var height = dpToPx(1)
-    private var marginHorizontal = 0
-
-    fun setColor(colorId: Int) {
-        this.paintDivider.apply { color = ContextCompat.getColor(context, colorId) }
+    private val paintDivider = Paint().apply {
+        color = ContextCompat.getColor(context, R.color.seashell)
     }
 
-    fun setHeight(dp: Int) {
-        this.height = dpToPx(dp)
-    }
-
-    fun setMarginHorizontal(dp: Int) {
-        this.marginHorizontal = dpToPx(dp)
-    }
+    private var dividerHeight = context.resources.getDimension(R.dimen.divider_height)
+    private var marginHorizontal = context.resources.getDimension(R.dimen.divider_horizontal_margin)
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val childCount = parent.childCount
         val lastChildIndex = parent.adapter?.itemCount?.minus(1) ?: -1
 
-        for (i in 0 until childCount) {
+        for (i in 1 until childCount) {
             if (i == lastChildIndex) {
                 continue
             }
 
             val child = parent.getChildAt(i)
             val dividerTop = child.bottom.toFloat()
-            val dividerBottom = dividerTop + height
+            val dividerBottom = dividerTop + dividerHeight
             val dividerLeft = child.left + marginHorizontal
             val dividerRight = child.right - marginHorizontal
             c.drawRect(
-                dividerLeft.toFloat(),
+                dividerLeft,
                 dividerTop,
-                dividerRight.toFloat(),
+                dividerRight,
                 dividerBottom,
                 paintDivider
             )
@@ -60,11 +50,7 @@ class DividerItemDecoration(
         val position = parent.getChildAdapterPosition(view)
 
         if (position < (parent.adapter?.itemCount?.minus(1) ?: 0)) {
-            outRect.bottom = height
+            outRect.bottom = dividerHeight.toInt()
         }
-    }
-
-    private fun dpToPx(dp: Int): Int {
-        return (dp * Resources.getSystem().displayMetrics.density).toInt()
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.hxh_project.data.repository.CatalogRepository
 import com.example.hxh_project.data.repository.UserRepository
 import com.example.hxh_project.domain.model.Profile
+import com.example.hxh_project.domain.use_case.CatalogUseCase
 import com.example.hxh_project.domain.use_case.ProductUseCase
 import com.example.hxh_project.domain.use_case.ProfileUseCase
 import com.example.hxh_project.domain.use_case.SignInUseCase
@@ -21,8 +22,8 @@ class DomainModule {
         SignInUseCase(userRepository)
 
     @Provides
-    fun provideProductUseCase(catalogRepository: CatalogRepository): ProductUseCase =
-        ProductUseCase(catalogRepository)
+    fun provideProductUseCase(catalogRepository: CatalogRepository): CatalogUseCase =
+        CatalogUseCase(catalogRepository)
 
     @Provides
     fun provideProfileUseCase(userRepository: UserRepository,

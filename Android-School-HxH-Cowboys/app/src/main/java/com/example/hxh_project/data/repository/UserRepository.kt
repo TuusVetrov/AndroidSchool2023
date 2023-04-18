@@ -1,47 +1,40 @@
 package com.example.hxh_project.data.repository
 
+import com.example.hxh_project.data.remote.api.AuthService
+import com.example.hxh_project.data.remote.api.UserProfileService
+import com.example.hxh_project.data.remote.utils.ApiState
+import com.example.hxh_project.data.remote.utils.getResponse
 import com.example.hxh_project.domain.model.request.AuthRequest
 import com.example.hxh_project.domain.model.response.AuthResponse
 import com.example.hxh_project.domain.model.response.GetUserResponse
 import com.example.hxh_project.domain.model.Profile
 import kotlinx.coroutines.delay
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepository {
-    private val profileResponse = GetUserResponse(
-        name = "Анна",
-        surname = "Виноградова",
-        occupation = "Садовник",
-        avatarUrl = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-    )
-
-    private val authResponse = AuthResponse(
-        token = "AAAAAAAAAAAAAAAAAAAAAFnz2wAAAAAACOwLSPtVT5gxxxxxxxxxxxx",
-        profile = Profile(
-            name = "Анна",
-            surname = "Виноградова",
-            occupation = "Садовник",
-            avatarUrl = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-        )
-    )
-
-    suspend fun signIn(authData: AuthRequest): Result<AuthResponse> {
-        randomDelay()
-        return randomResult(authResponse)
-    }
-
-    suspend fun getUser(): Result<GetUserResponse> {
-        randomDelay()
-        return randomResult(profileResponse)
-    }
-
-    private suspend fun randomDelay() {
-        delay((100L..1000L).random())
-    }
-
-    private fun <T> randomResult(data: T): Result<T> =
-        if ((0..100).random() < 5) {
-            Result.failure(RuntimeException())
-        } else {
-            Result.success(data)
+@Singleton
+class UserRepository @Inject constructor(
+    private val authService: AuthService,
+    private val userProfileService: UserProfileService,
+) {
+    suspend fun getUserByEmailAndPassword(
+        email: String,
+        password: String,
+    ): ApiState<AuthResponse> {
+        return runCatching {
+            val authResponse = authService.signIn(AuthRequest(email, password)).getResponse()
+            ApiState.success(authResponse)
+        }.getOrElse { throwable ->
+            ApiState.error(throwable.message ?: "Что-то пошло не так!")
         }
+    }
+
+    suspend fun getProfile(): ApiState<GetUserResponse> {
+        return runCatching {
+            val profileResponse = userProfileService.getProfile().getResponse()
+            ApiState.success(profileResponse)
+        }.getOrElse { throwable ->
+            ApiState.error(throwable.message ?: "Что-то пошло не так!")
+        }
+    }
 }

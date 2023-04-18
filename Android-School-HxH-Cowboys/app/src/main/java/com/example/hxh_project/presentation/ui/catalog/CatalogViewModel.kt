@@ -1,69 +1,72 @@
 package com.example.hxh_project.presentation.ui.catalog
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hxh_project.R
+import com.example.hxh_project.core.token_manager.TokenManager
 import com.example.hxh_project.data.repository.CatalogRepository
-import com.example.hxh_project.domain.model.Product
+import com.example.hxh_project.domain.use_case.CatalogUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class UiState {
-    object Loading: UiState()
-    data class Notice(val imageId: Int,
-                      val message: Int,
-                      val description: Int,): UiState()
-    data class Success(val data: List<Product>): UiState()
-}
-
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
-    private val catalogRepository: CatalogRepository,
+    private val catalogUseCase: CatalogUseCase,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
-    val uiState: StateFlow<UiState> = _uiState
+    private val _uiState: MutableStateFlow<CatalogState> = MutableStateFlow(CatalogState.initState)
+    val uiState: StateFlow<CatalogState> = _uiState
 
+    init {
+        checkUserLoggedIn()
+    }
 
-    private val handlerException = CoroutineExceptionHandler { _, throwable ->
-        _uiState.update {
-            UiState.Notice(
-                R.drawable.img_logo,
-                R.string.error_loading_title,
-                R.string.error_loading_description
-            )
+     fun getProducts() {
+        viewModelScope.launch {
+            val response = catalogUseCase.getProducts()
+
+            response.onSuccess {
+                if (it.data.isEmpty()){
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            isLoading = false,
+                            isEmpty = true,
+                            error = null
+                        )
+                    }
+                }else {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            isLoading = false,
+                            products = it.data,
+                            error = null
+                        )
+                    }
+                }
+            }.onFailure {
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        isLoading = false,
+                        error = it
+                    )
+                }
+            }
         }
     }
 
-    fun fetchData() {
-        _uiState.update {
-            UiState.Loading
-        }
-        viewModelScope.launch(handlerException) {
-            val productsDeferred = async {
-                catalogRepository.getProducts()
-            }
-
-            val products = productsDeferred.await().getOrThrow()
-
-            if (products.products.isNotEmpty()) {
-                _uiState.update {
-                    UiState.Success(products.products)
-                }
-            } else {
-                _uiState.update {
-                    UiState.Notice(
-                        R.drawable.img_logo,
-                        R.string.empty_state_title,
-                        R.string.empty_state_description
-                    )
-                }
+    private fun checkUserLoggedIn() {
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isUserLoggedIn = tokenManager.getToken() != null,
+                )
             }
         }
     }

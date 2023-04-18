@@ -7,6 +7,8 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.hxh_project.R
 import com.example.hxh_project.presentation.ui.catalog.CatalogFragment
+import com.example.hxh_project.presentation.ui.orders.OrdersAdapter
+import com.example.hxh_project.presentation.ui.orders.OrdersFragment
 import com.example.hxh_project.presentation.ui.product.ProductFragment
 import com.example.hxh_project.presentation.ui.sign_in.SignInFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         fitContentViewToInsets()
 
         supportFragmentManager.commit {
-            add<CatalogFragment>(R.id.main_activity_container)
+            add<SignInFragment>(R.id.main_activity_container)
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.example.hxh_project.R
 import com.example.hxh_project.databinding.ProductItemBinding
 import com.example.hxh_project.domain.model.Product
 import java.util.*
@@ -43,8 +44,10 @@ class CatalogAdapter(
                     tvCategory.text = product.department
                     tvPrice.text =
                         String.format("%,d ₽", product.price).replace(",", " ")
-                    ivCatalogItemPreview.load(product.previewImage) {
+                    ivCatalogItemPreview.load(product.preview) {
                         transformations(RoundedCornersTransformation(20f))
+                        placeholder(R.drawable.img_logo)
+                        error(R.drawable.img_logo)
                     }
                     root.setOnClickListener { onItemClickListener(product) }
                 }

@@ -2,21 +2,23 @@ package com.example.hxh_project.presentation.ui.catalog
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.fragment.app.viewModels
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.*
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hxh_project.R
+import com.example.hxh_project.data.remote.utils.json
 import com.example.hxh_project.databinding.FragmentCatalogBinding
 import com.example.hxh_project.presentation.components.ProgressContainer
-import com.example.hxh_project.presentation.ui.catalog.item_decoration.DividerItemDecoration
+import com.example.hxh_project.presentation.ui.catalog.item_decoration.DividerDecoration
 import com.example.hxh_project.presentation.ui.catalog.item_decoration.MarginItemDecoration
 import com.example.hxh_project.presentation.ui.product.ProductFragment
 import com.example.hxh_project.presentation.ui.profile.ProfileFragment
+import com.example.hxh_project.presentation.ui.sign_in.SignInFragment
+import com.example.hxh_project.presentation.ui.sign_in.SignInState
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -27,6 +29,10 @@ class CatalogFragment : Fragment() {
 
     private val catalogViewModel: CatalogViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        catalogViewModel.getProducts()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,22 +43,11 @@ class CatalogFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.toolbarCatalog.inflateMenu(R.menu.menu_layout)
-        catalogViewModel.fetchData()
 
         viewModelObserver()
         toolBarMenuLister()
-
-        val margins = MarginItemDecoration(requireContext()).apply {
-            setColor(R.color.white)
-            setCornerRadius(16)
-            setMargin(16)
-        }
-
-        val divider = DividerItemDecoration(requireContext()).apply {
-            setColor(R.color.seashell)
-            setMarginHorizontal(16)
-        }
 
         productsAdapter = CatalogAdapter { product ->
             onItemClick(product.id, product.title)
@@ -61,34 +56,52 @@ class CatalogFragment : Fragment() {
         binding.rvCatalog.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = productsAdapter
-            addItemDecoration(margins)
-            addItemDecoration(divider)
+            addItemDecoration(MarginItemDecoration(requireContext()))
+            addItemDecoration(DividerDecoration(requireContext()))
         }
+
     }
 
     private fun viewModelObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 catalogViewModel.uiState.collect {
-                    when(it){
-                        is UiState.Loading -> {
-                            binding.progressContainer.state = ProgressContainer.State.Loading
-                        }
-                        is UiState.Success -> {
-                            binding.progressContainer.state = ProgressContainer.State.Success
-                            productsAdapter.submitList(it.data)
-                        }
-                        is UiState.Notice -> {
-                            binding.progressContainer.state =
-                                ProgressContainer.State.Notice(
-                                    it.imageId,
-                                    it.message,
-                                    it.description) {
-                                    catalogViewModel.fetchData()
-                                }
-                        }
-                    }
+                    catalogStateHandler(it)
                 }
+            }
+        }
+    }
+
+    private fun catalogStateHandler(state: CatalogState) {
+        if(state.isUserLoggedIn == false) {
+            navToLogIn()
+        }
+
+        if (state.isLoading) {
+            binding.progressContainer.state = ProgressContainer.State.Loading
+        }
+
+        if (state.isEmpty) {
+            binding.progressContainer.state = ProgressContainer.State.Notice(
+                R.drawable.img_logo,
+                R.string.empty_state_title,
+                R.string.empty_state_description
+            ) {
+                catalogViewModel.getProducts()
+            }
+        } else {
+            binding.progressContainer.state = ProgressContainer.State.Success
+            productsAdapter.submitList(state.products)
+        }
+
+        val errorMessage = state.error
+        if (errorMessage != null) {
+            binding.progressContainer.state = ProgressContainer.State.Notice(
+                R.drawable.img_logo,
+                R.string.empty_state_title,
+                R.string.empty_state_description
+            ) {
+                catalogViewModel.getProducts()
             }
         }
     }
@@ -112,6 +125,13 @@ class CatalogFragment : Fragment() {
         parentFragmentManager.commit {
             replace(R.id.main_activity_container, fragment)
             addToBackStack(null)
+        }
+    }
+
+    private fun navToLogIn() {
+        parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        parentFragmentManager.commit {
+            replace<SignInFragment>(R.id.main_activity_container)
         }
     }
 

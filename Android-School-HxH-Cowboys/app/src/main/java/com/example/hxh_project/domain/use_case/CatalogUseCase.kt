@@ -1,12 +1,14 @@
 package com.example.hxh_project.domain.use_case
 
+import com.example.hxh_project.data.remote.utils.ApiState
 import com.example.hxh_project.data.repository.CatalogRepository
 import com.example.hxh_project.domain.model.response.GetProductsResponse
+import javax.inject.Inject
 
-class CatalogUseCase(
-    private val repository: CatalogRepository
+class CatalogUseCase @Inject constructor(
+    private val catalogRepository: CatalogRepository
 ) {
-    suspend fun getProducts(): Result<GetProductsResponse> {
-        return repository.getProducts()
+    suspend fun getProducts(): ApiState<GetProductsResponse> {
+        return catalogRepository.getAllProducts()
     }
 }

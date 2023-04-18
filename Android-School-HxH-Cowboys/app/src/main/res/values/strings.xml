@@ -16,6 +16,8 @@
 
     <string name="sign_in">Войти</string>
 
+    <string name="btn_buy_now">Купить сейчас</string>
+
     <string name="sign_in_title">@string/sign_in</string>
     <string name="sign_in_login_hint">Логин</string>
     <string name="sign_in_password_hint">Пароль</string>
@@ -29,7 +31,21 @@
     <string name="btn_logout_text">Выйти</string>
     <string name="btn_cancel_text">Отмена</string>
     <string name="exit_dialog_message">Вы уверены, что хотите выйти?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="size_text">Размер</string>
+
+    <string name="all_orders">Все</string>
+    <string name="active_orders">Активные</string>
+
+    <string name="orders_toolbar_name">Мои заказы</string>
+    <string name="order_info">Заказ №%1$d от %2$s %3$s</string>
+    <string name="order_date">Дата доставки: %1$s в %2$s</string>
+    <string name="order_address">Адрес доставки: %1$s</string>
+    <string name="order_cancelled_info">Был отменен %1$s в %2$s</string>
+    <string name="order_status_in_work">В работе</string>
+    <string name="order_status_done">Доставлен</string>
+    <string name="order_status_cancelled">Отменен</string>
+
+    <string name="error_message_email_invalid">Проверьте корректность вашего email</string>
+    <string name="error_message_password_invalid">Пароль должен содержать от 8 cимволов</string>
+    <string name="menu_item_cancel">Отменить</string>
 </resources>

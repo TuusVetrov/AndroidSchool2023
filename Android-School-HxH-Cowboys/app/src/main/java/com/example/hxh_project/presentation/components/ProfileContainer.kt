@@ -33,6 +33,7 @@ class ProfileContainer @JvmOverloads constructor(
         userImage.load(imgUrl) {
             crossfade(true)
             placeholder(R.drawable.img_logo)
+            error(R.drawable.img_logo)
             transformations(CircleCropTransformation())
         }
     }

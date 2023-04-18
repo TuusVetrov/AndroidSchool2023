@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardElevation="0dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/normal_200">
+
+        <ImageView
+            android:id="@+id/ivProductImage"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvOrderNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/ivProductImage"
+            android:layout_marginStart="@dimen/normal_100"
+            style="@style/TextAppearance.BodySmall"
+            android:textColor="@color/text_primary"
+            android:text="Заказ №123 от 19.09.21 18:03" />
+
+        <TextView
+            android:id="@+id/tvOrderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvOrderNumber"
+            android:layout_marginStart="@dimen/normal_100"
+            android:layout_marginTop="@dimen/normal_100"
+            android:layout_toEndOf="@+id/ivProductImage"
+            style="@style/TextAppearance.Title"
+            android:textColor="@color/green"
+            android:text="@string/order_status_in_work" />
+
+        <Button
+            android:id="@+id/btnMore"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentEnd="true"
+            android:drawableTop="@drawable/ic_more_vert_24"
+            />
+
+        <TextView
+            android:id="@+id/tvOrderedProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvOrderStatus"
+            android:layout_marginStart="@dimen/normal_100"
+            android:layout_marginTop="@dimen/normal_100"
+            android:layout_toEndOf="@+id/ivProductImage"
+            style="@style/TextAppearance.Title"
+            android:textColor="@color/text_primary"
+            android:text="4 × M • Nike Tampa Bay Buccaneers Super Bowl LV" />
+
+        <TextView
+            android:id="@+id/tvEtd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvOrderedProductName"
+            android:layout_marginStart="@dimen/normal_100"
+            android:layout_marginTop="@dimen/normal_100"
+            android:layout_toEndOf="@+id/ivProductImage"
+            style="@style/TextAppearance.BodySmall"
+            android:textColor="@color/text_secondary"
+            android:text="Дата доставки: 24.09.21 в 16:00" />
+
+        <TextView
+            android:id="@+id/tvDeliveryAddress"
+            style="@style/TextAppearance.BodySmall"
+            android:textColor="@color/text_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_100"
+            android:layout_below="@+id/tvEtd"
+            android:layout_toEndOf="@+id/ivProductImage"
+            android:text="Адрес доставки: г. Саранск, ул. Демократическая, 14" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
