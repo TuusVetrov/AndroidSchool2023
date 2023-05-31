@@ -162,7 +162,7 @@ class CheckOutFragment : Fragment() {
         binding.textInputAddress.editText?.setText(state.address)
         binding.textInputDeliveryDate.editText?.setText(state.dateForView)
         binding.textInputProductSize.editText?.setText(state.productSize)
-        binding.counter
+        binding.counter.setCounterValue(state.quantity)
 
 
         state.product?.let { onSuccess(it) }
@@ -189,7 +189,6 @@ class CheckOutFragment : Fragment() {
 
     private fun onSuccess(data: Product) {
         val corners = requireContext().resources.getDimension(R.dimen.preview_corner_radius)
-        val price = FormatUtils.priceFormat(data.price)
 
         binding.ivItemPreview.load(data.preview)
         binding.ivItemPreview.load(data.preview) {
@@ -202,11 +201,11 @@ class CheckOutFragment : Fragment() {
 
         val title = if (size.isNotEmpty()) "$size • ${data.title}" else data.title
 
-
-
         binding.tvTitle.text = title
         binding.tvCategory.text = data.department
         binding.counter.maxQuantity = 10 // TODO: maybe need get count items in stock
+
+        val price = FormatUtils.priceFormat(data.price * binding.counter.getCounterValue())
 
         binding.btnBuy.setText(requireContext().getString(R.string.btn_checkout_text, price))
     }

@@ -1,6 +1,7 @@
 package com.example.hxh_project.presentation.ui.settings
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -23,6 +24,7 @@ import coil.transform.CircleCropTransformation
 import com.example.hxh_project.BuildConfig
 import com.example.hxh_project.R
 import com.example.hxh_project.databinding.FragmentSettingsBinding
+import com.example.hxh_project.presentation.ui.place_picker.PlacePickerFragment
 import com.example.hxh_project.presentation.ui.utils.SnackbarListener
 import com.example.hxh_project.presentation.ui.utils.dialogs.JobBottomSheetDialog
 import com.example.hxh_project.presentation.ui.utils.dialogs.PhotoPickerBottomDialog
@@ -301,7 +303,17 @@ class SettingsFragment :
                 takePhoto()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
-
+                AlertDialog.Builder(requireContext())
+                    .setTitle(getString(R.string.camera_permission_title))
+                    .setMessage(getString(R.string.camera_permission_message))
+                    .setPositiveButton(getString(R.string.btn_allow_text)) { dialog, _ ->
+                        dialog.dismiss()
+                        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+                    }
+                    .setNegativeButton(getString(R.string.btn_cancel_text)) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
             }
             else -> { requestPermissionLauncher.launch(Manifest.permission.CAMERA) }
         }

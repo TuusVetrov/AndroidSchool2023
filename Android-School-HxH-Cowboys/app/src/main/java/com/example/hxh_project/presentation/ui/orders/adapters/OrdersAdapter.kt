@@ -53,7 +53,6 @@ class OrdersAdapter(
             }
         }
 
-        @SuppressLint("SetTextI18n", "StringFormatMatches")
         fun bind(order: Order?) =
             with(itemBinding) {
                 if (order == null) return@with
@@ -88,17 +87,18 @@ class OrdersAdapter(
                     date.second
                 )
 
-                itemBinding.btnMore.visibility = View.INVISIBLE
+                if (bindingAdapterPosition == loadingPosition) {
+                    btnMore.visibility = View.GONE
+                    progressBarContainer.visibility = View.VISIBLE
+                } else {
+                    btnMore.visibility =
+                        if (order.status == "in_work") View.VISIBLE else View.INVISIBLE
+                    progressBarContainer.visibility = View.GONE
+                }
 
                 when(order.status) {
                     "in_work" -> {
-                        if (bindingAdapterPosition == loadingPosition) {
-                            btnMore.visibility = View.GONE
-                            progressBarContainer.visibility = View.VISIBLE
-                        } else {
-                            btnMore.visibility = View.VISIBLE
-                            progressBarContainer.visibility = View.GONE
-                        }
+                        tvOrderStatus.setTextColor(context.getColor(R.color.green))
                         tvOrderStatus.text = itemView.resources.getString(R.string.order_status_in_work)
                     }
                     "done" ->

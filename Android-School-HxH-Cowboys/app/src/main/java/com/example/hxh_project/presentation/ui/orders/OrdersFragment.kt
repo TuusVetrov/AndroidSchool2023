@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updatePadding
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,10 +18,8 @@ import com.example.hxh_project.presentation.components.ProgressContainer
 import com.example.hxh_project.presentation.ui.catalog.CatalogFragment
 import com.example.hxh_project.presentation.ui.orders.adapters.OrdersAdapter
 import com.example.hxh_project.presentation.ui.orders.adapters.ViewPagerAdapter
-import com.example.hxh_project.presentation.ui.sign_in.SignInFragment
 import com.example.hxh_project.utils.extensions.navigateTo
 import com.example.hxh_project.utils.extensions.setWindowTransparency
-import com.example.hxh_project.utils.extensions.updateMargin
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -34,7 +31,7 @@ import kotlinx.coroutines.launch
 class OrdersFragment : Fragment() {
     private lateinit var binding: FragmentOrdersBinding
 
-    private val viewModel: OrdersViewModel by viewModels()
+    private val viewModel: OrdersViewModel by activityViewModels()
 
     private lateinit var adapterAllOrders: OrdersAdapter
     private lateinit var adapterActiveOrders: OrdersAdapter
@@ -60,9 +57,12 @@ class OrdersFragment : Fragment() {
     }
 
     private fun initUiElements() {
-        val adapter = ViewPagerAdapter(childFragmentManager, lifecycle).apply {
-            addFragment(AllOrdersFragment())
-            addFragment(ActiveOrdersFragment())
+        val allOrdersFragment = OrdersListFragment.newInstance(true)
+        val activeOrdersFragment = OrdersListFragment.newInstance(false)
+
+        val adapter = ViewPagerAdapter(requireActivity()).apply {
+            addFragment(allOrdersFragment)
+            addFragment(activeOrdersFragment)
         }
 
         binding.viewPager.adapter = adapter

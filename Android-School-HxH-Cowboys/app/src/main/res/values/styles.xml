@@ -170,6 +170,12 @@
         <item name="shapeAppearance">@style/Theme.AndroidSchoolHxHCowboys.RoundedShape</item>
     </style>
 
+    <style name="Theme.AndroidSchoolHxHCowboys.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="android:background">@color/smalt</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Body</item>
+    </style>
 
     <style name="Theme.AndroidSchoolHxHCowboys.RoundedShape" parent="">
         <item name="cornerFamily">rounded</item>

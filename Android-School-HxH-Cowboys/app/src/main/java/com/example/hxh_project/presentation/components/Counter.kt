@@ -23,8 +23,15 @@ class Counter @JvmOverloads constructor(
         }
     }
 
-    private var counter: Int by Delegates.observable(MIN_COUNTER_VALUE) { _, _, newValue ->
-        onCountChangedListener?.invoke(newValue)
+   private var counter: Int by Delegates.observable(MIN_COUNTER_VALUE) { _, _, newValue ->
+       onCountChangedListener?.invoke(newValue)
+    }
+
+    fun getCounterValue() = counter
+
+    fun setCounterValue(value: Int) {
+        counter = if (value < MIN_COUNTER_VALUE)  MIN_COUNTER_VALUE else value
+        tvCount.text = value.toString()
     }
 
     private var onCountChangedListener: ((count: Int) -> Unit)? = null

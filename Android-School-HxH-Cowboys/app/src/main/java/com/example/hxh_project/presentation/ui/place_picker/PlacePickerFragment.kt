@@ -1,6 +1,7 @@
 package com.example.hxh_project.presentation.ui.place_picker
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -235,7 +236,6 @@ class PlacePickerFragment : Fragment(), UserLocationObjectListener, CameraListen
         val locationListener = object : LocationListener {
             override fun onLocationUpdated(location: Location) {
                 lastKnownLocation = location
-
                 animateCamera(location.position)
             }
 
@@ -258,9 +258,22 @@ class PlacePickerFragment : Fragment(), UserLocationObjectListener, CameraListen
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-            ) == PackageManager.PERMISSION_GRANTED -> { }
-            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {
+            ) == PackageManager.PERMISSION_GRANTED -> {
 
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(getString(R.string.location_permission_title))
+                    .setMessage(getString(R.string.location_permission_message))
+                    .setPositiveButton(getString(R.string.btn_allow_text)) { dialog, _ ->
+                        dialog.dismiss()
+                        requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    }
+                    .setNegativeButton(getString(R.string.btn_cancel_text)) { dialog, _ ->
+                        dialog.dismiss()
+                        moveCamera(ZERO_POINT, 4.716611f )
+                    }
+                    .show()
             }
             else -> { requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION) }
         }

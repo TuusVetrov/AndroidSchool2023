@@ -42,7 +42,7 @@
             android:layout_toEndOf="@+id/ivItemPreview"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Джерси "
+            android:text="Джерси"
             android:textAppearance="@style/TextAppearance.Subtitle"
             android:textColor="@color/text_secondary" />
 

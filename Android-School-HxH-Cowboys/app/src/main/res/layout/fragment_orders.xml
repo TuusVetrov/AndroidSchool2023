@@ -33,24 +33,23 @@
         <com.example.hxh_project.presentation.components.ProgressContainer
             android:id="@+id/progressContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <com.google.android.material.tabs.TabLayout
+                    style="@style/Theme.AndroidSchoolHxHCowboys.TabLayout"
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/smalt"
-                    app:tabMode="fixed"
-                    app:tabTextColor="@color/white"
-                    app:tabIndicatorColor="@color/white" />
+                    app:tabMode="fixed" />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     />
             </LinearLayout>
         </com.example.hxh_project.presentation.components.ProgressContainer>

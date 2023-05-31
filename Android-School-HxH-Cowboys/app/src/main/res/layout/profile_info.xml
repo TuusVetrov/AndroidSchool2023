@@ -5,9 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/smalt"
-    >
-
+    android:background="@color/smalt">
     <ImageView
         android:id="@+id/ivProfile"
         android:layout_width="90dp"
@@ -29,6 +27,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textAppearance="@style/TextAppearance.Title"
-        />
+        android:textAppearance="@style/TextAppearance.Title" />
 </LinearLayout>

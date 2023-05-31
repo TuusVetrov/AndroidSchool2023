@@ -1,20 +1,18 @@
 package com.example.hxh_project.presentation.ui.orders
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.fragment.app.viewModels
+import androidx.core.view.updatePadding
+import androidx.fragment.app.*
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hxh_project.R
-import com.example.hxh_project.databinding.FragmentActiveOrdersBinding
+import com.example.hxh_project.databinding.FragmentOrdersListBinding
 import com.example.hxh_project.domain.model.Order
 import com.example.hxh_project.presentation.components.ProgressContainer
 import com.example.hxh_project.presentation.ui.catalog.CatalogFragment
@@ -22,37 +20,38 @@ import com.example.hxh_project.presentation.ui.utils.SnackbarListener
 import com.example.hxh_project.presentation.ui.utils.item_decorations.DividerDecoration
 import com.example.hxh_project.presentation.ui.utils.item_decorations.MarginItemDecoration
 import com.example.hxh_project.presentation.ui.orders.adapters.OrdersAdapter
-import com.example.hxh_project.presentation.ui.sign_in.SignInFragment
 import com.example.hxh_project.presentation.ui.utils.PagerLoadingStateAdapter
 import com.example.hxh_project.utils.FormatUtils.formatDate
 import com.example.hxh_project.utils.extensions.navigateTo
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.hxh_project.utils.extensions.setWindowTransparency
+import com.example.hxh_project.utils.extensions.updateMargin
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-class ActiveOrdersFragment : Fragment() {
-    private lateinit var binding: FragmentActiveOrdersBinding
+class OrdersListFragment : Fragment() {
+    private lateinit var binding: FragmentOrdersListBinding
 
-    private val viewModel: OrdersViewModel by viewModels()
+    private val viewModel: OrdersViewModel by activityViewModels()
     private lateinit var ordersAdapter: OrdersAdapter
 
     private var snackbarListener: SnackbarListener? = null
-    private lateinit var message: String
+
+    private var isAllOrders: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ordersAdapter = OrdersAdapter(requireContext(), ::onButtonCancelClickListener)
         snackbarListener = requireActivity() as? SnackbarListener
+        isAllOrders = requireArguments().getBoolean(ARG_IS_ALL_ORDERS)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentActiveOrdersBinding.inflate(inflater, container, false)
+        binding = FragmentOrdersListBinding.inflate(inflater, container, false)
         initUiElements()
         setListeners()
         return binding.root
@@ -71,11 +70,12 @@ class ActiveOrdersFragment : Fragment() {
     }
 
     private fun setListeners() {
-        viewModel.activeOrders
+        val ordersFlow = if (isAllOrders == true) viewModel.allOrders else viewModel.activeOrders
+
+        ordersFlow
             .flowWithLifecycle(lifecycle)
-            .onEach {
-                ordersAdapter.submitData(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            .onEach { ordersAdapter.submitData(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.cancelOrderResultFlow
             .flowWithLifecycle(lifecycle)
@@ -83,12 +83,21 @@ class ActiveOrdersFragment : Fragment() {
                 when(state) {
                     is OrderState.Failure ->
                         snackbarListener?.showError(getString(R.string.error_on_cancel_order))
-                    is OrderState.Success ->
+                    is OrderState.Success -> {
+                        val date = formatDate(state.order.createdAt)
+                        val message = getString(
+                            R.string.cancel_order_success,
+                            state.order.number,
+                            date.first,
+                            date.second
+                        )
                         snackbarListener?.showSuccess(message)
+                    }
                 }
                 ordersAdapter.setLoadingPosition(null)
                 ordersAdapter.refresh()
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -103,8 +112,6 @@ class ActiveOrdersFragment : Fragment() {
     }
 
     private fun onButtonCancelClickListener(order: Order) {
-        val date = formatDate(order.createdAt)
-        message = getString(R.string.cancel_order_success, order.number, date.first, date.second)
         viewModel.cancelOrder(order.id)
     }
 
@@ -130,12 +137,35 @@ class ActiveOrdersFragment : Fragment() {
                         getString(R.string.empty_state_orders_progress_container_title),
                         getString(R.string.empty_state_orders_progress_container_description)
                     ) {
-                        navigateTo<CatalogFragment>(false)
+                        navigateTo<CatalogFragment>(true)
                     }
                 }else {
                     binding.progressContainer.state = ProgressContainer.State.Success
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ordersAdapter.refresh()
+        binding.root.requestLayout() // fix for flying layout
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.root.requestLayout()
+    }
+
+    companion object {
+        private const val ARG_IS_ALL_ORDERS = "isAllOrders"
+
+        @JvmStatic
+        fun newInstance(isAllOrders: Boolean) =
+            OrdersListFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(ARG_IS_ALL_ORDERS, isAllOrders)
+                }
+            }
     }
 }

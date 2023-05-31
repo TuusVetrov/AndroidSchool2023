@@ -23,6 +23,11 @@
     <string name="empty_state_orders_progress_container_title">Заказов не обнаружено</string>
     <string name="empty_state_orders_progress_container_description">Закажите что-нибудь и заказы появятся тут</string>
 
+    <string name="location_permission_title">Разрешение на доступ к местоположению</string>
+    <string name="location_permission_message">Для определения вашего приблизительного местоположения требуется доступ к местоположению.</string>
+    <string name="camera_permission_title">Разрешение на использование камеры</string>
+    <string name="camera_permission_message">Для снятия фотографии требуется доступ к камере.</string>
+
 
 
     <string name="stub_text">Text</string>
@@ -35,6 +40,7 @@
     <string name="btn_buy_now">Купить сейчас</string>
     <string name="buy_button">Купить</string>
     <string name="btn_orders_text">Мои заказы</string>
+    <string name="btn_allow_text">Разрешить</string>
     <string name="btn_settings_text">Настройки</string>
     <string name="btn_logout_text">Выйти</string>
     <string name="btn_cancel_text">Отмена</string>
