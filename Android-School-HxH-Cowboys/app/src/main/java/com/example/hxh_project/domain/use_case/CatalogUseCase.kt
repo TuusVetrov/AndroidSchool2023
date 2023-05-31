@@ -1,14 +1,13 @@
 package com.example.hxh_project.domain.use_case
 
-import com.example.hxh_project.data.remote.utils.ApiState
+import androidx.paging.PagingData
 import com.example.hxh_project.data.repository.CatalogRepository
-import com.example.hxh_project.domain.model.response.GetProductsResponse
+import com.example.hxh_project.domain.model.Product
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CatalogUseCase @Inject constructor(
     private val catalogRepository: CatalogRepository
 ) {
-    suspend fun getProducts(): ApiState<GetProductsResponse> {
-        return catalogRepository.getAllProducts()
-    }
+    fun getProducts(): Flow<PagingData<Product>> = catalogRepository.getAllProducts()
 }

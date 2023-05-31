@@ -2,7 +2,7 @@ package com.example.hxh_project.domain.use_case
 
 import com.example.hxh_project.data.remote.utils.ApiState
 import com.example.hxh_project.data.repository.CatalogRepository
-import com.example.hxh_project.domain.model.response.GetProductResponse
+import com.example.hxh_project.data.model.response.GetProductResponse
 import javax.inject.Inject
 
 class ProductUseCase @Inject constructor(

@@ -1,11 +1,13 @@
 package com.example.hxh_project.presentation.ui.catalog
 
+import androidx.paging.PagingData
 import com.example.hxh_project.domain.model.Product
+import kotlinx.coroutines.flow.Flow
 
 data class CatalogState (
     val isLoading: Boolean,
     val isEmpty: Boolean,
-    val products: List<Product>,
+    val products: Flow<PagingData<Product>>?,
     val error: String?,
     val isUserLoggedIn: Boolean?,
 ) {
@@ -13,7 +15,7 @@ data class CatalogState (
         val initState = CatalogState(
             isLoading = false,
             isEmpty = false,
-            products = emptyList(),
+            products = null,
             error = null,
             isUserLoggedIn = null
         )

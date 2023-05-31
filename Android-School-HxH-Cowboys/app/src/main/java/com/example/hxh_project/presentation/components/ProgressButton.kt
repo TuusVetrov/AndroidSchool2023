@@ -35,6 +35,10 @@ class ProgressButton @JvmOverloads constructor(
         }
     }
 
+    fun setText(text: String) {
+        button.text = text
+    }
+
     var isLoading: Boolean by Delegates.observable(false) { _, _, isLoading ->
         progressBar.isVisible = isLoading
 

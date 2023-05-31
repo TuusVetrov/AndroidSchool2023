@@ -48,6 +48,19 @@
             android:drawableTop="@drawable/ic_more_vert_24"
             />
 
+        <ProgressBar
+            android:id="@+id/progressBarContainer"
+            style="@style/Widget.Material3.CircularProgressIndicator.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:layout_alignParentEnd="true"
+            android:indeterminateTint="@color/smalt"
+            android:indeterminateTintMode="src_in"
+            android:visibility="gone"
+            />
+
         <TextView
             android:id="@+id/tvOrderedProductName"
             android:layout_width="wrap_content"

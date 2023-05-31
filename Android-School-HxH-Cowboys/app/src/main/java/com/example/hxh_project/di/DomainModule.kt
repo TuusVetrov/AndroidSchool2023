@@ -26,7 +26,8 @@ class DomainModule {
         CatalogUseCase(catalogRepository)
 
     @Provides
-    fun provideProfileUseCase(userRepository: UserRepository,
-                              @ApplicationContext context: Context): ProfileUseCase =
-        ProfileUseCase(userRepository, context)
+    fun provideProfileUseCase(
+        userRepository: UserRepository,
+        @ApplicationContext context: Context
+    ): ProfileUseCase = ProfileUseCase(userRepository, context)
 }

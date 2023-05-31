@@ -5,28 +5,47 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hxh_project.R
 import com.example.hxh_project.databinding.FragmentActiveOrdersBinding
+import com.example.hxh_project.domain.model.Order
 import com.example.hxh_project.presentation.components.ProgressContainer
-import com.example.hxh_project.utils.OrderStatusType
+import com.example.hxh_project.presentation.ui.catalog.CatalogFragment
+import com.example.hxh_project.presentation.ui.utils.SnackbarListener
+import com.example.hxh_project.presentation.ui.utils.item_decorations.DividerDecoration
+import com.example.hxh_project.presentation.ui.utils.item_decorations.MarginItemDecoration
+import com.example.hxh_project.presentation.ui.orders.adapters.OrdersAdapter
+import com.example.hxh_project.presentation.ui.sign_in.SignInFragment
+import com.example.hxh_project.presentation.ui.utils.PagerLoadingStateAdapter
+import com.example.hxh_project.utils.FormatUtils.formatDate
+import com.example.hxh_project.utils.extensions.navigateTo
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ActiveOrdersFragment : Fragment() {
     private lateinit var binding: FragmentActiveOrdersBinding
-    private val ordersViewModel: OrdersViewModel by viewModels()
 
+    private val viewModel: OrdersViewModel by viewModels()
     private lateinit var ordersAdapter: OrdersAdapter
+
+    private var snackbarListener: SnackbarListener? = null
+    private lateinit var message: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ordersViewModel.getOrders(OrderStatusType.InWork)
+        ordersAdapter = OrdersAdapter(requireContext(), ::onButtonCancelClickListener)
+        snackbarListener = requireActivity() as? SnackbarListener
     }
 
     override fun onCreateView(
@@ -34,60 +53,88 @@ class ActiveOrdersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentActiveOrdersBinding.inflate(inflater, container, false)
+        initUiElements()
+        setListeners()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModelObserver()
-
-        ordersAdapter = OrdersAdapter(requireContext()) {
-
-        }
-
+    private fun initUiElements() {
         binding.rvActiveOrders.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = ordersAdapter
+            val errorMessage = getString(R.string.error_on_loading_orders)
+            adapter = ordersAdapter.withLoadStateFooter(
+                footer = PagerLoadingStateAdapter(errorMessage) { onRetryClick() }
+            )
+            addItemDecoration(MarginItemDecoration(requireContext()))
+            addItemDecoration(DividerDecoration(requireContext()))
         }
     }
 
-    private fun viewModelObserver() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                ordersViewModel.uiState.collect() {
-                    ordersStateHandler(it)
+    private fun setListeners() {
+        viewModel.activeOrders
+            .flowWithLifecycle(lifecycle)
+            .onEach {
+                ordersAdapter.submitData(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.cancelOrderResultFlow
+            .flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                when(state) {
+                    is OrderState.Failure ->
+                        snackbarListener?.showError(getString(R.string.error_on_cancel_order))
+                    is OrderState.Success ->
+                        snackbarListener?.showSuccess(message)
+                }
+                ordersAdapter.setLoadingPosition(null)
+                ordersAdapter.refresh()
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            ordersAdapter.loadStateFlow.collectLatest { loadStates ->
+                stateHandler(loadStates)
+            }
+        }
+    }
+
+    private fun onRetryClick() {
+        ordersAdapter.retry()
+    }
+
+    private fun onButtonCancelClickListener(order: Order) {
+        val date = formatDate(order.createdAt)
+        message = getString(R.string.cancel_order_success, order.number, date.first, date.second)
+        viewModel.cancelOrder(order.id)
+    }
+
+    private fun stateHandler(loadStates: CombinedLoadStates) {
+        when(val state = loadStates.refresh) {
+            is LoadState.Error -> {
+                binding.progressContainer.state = ProgressContainer.State.Notice(
+                    R.drawable.img_logo,
+                    getString(R.string.error_progress_container_title),
+                    state.error.message.orEmpty()
+                ) {
+                    ordersAdapter.refresh()
                 }
             }
-        }
-    }
-
-    private fun ordersStateHandler(state: OrderState) {
-        if (state.isLoading) {
-            binding.progressContainer.state = ProgressContainer.State.Loading
-        }
-
-        if (state.isEmpty) {
-            binding.progressContainer.state = ProgressContainer.State.Notice(
-                R.drawable.img_logo,
-                R.string.empty_state_title,
-                R.string.empty_state_description
-            ) {
-                ordersViewModel.getOrders(OrderStatusType.All)
+            is LoadState.Loading ->{
+                binding.progressContainer.state = ProgressContainer.State.Loading
             }
-        } else {
-            binding.progressContainer.state = ProgressContainer.State.Success
-            ordersAdapter.submitList(state.orders)
-        }
-
-        val errorMessage = state.error
-        if (errorMessage != null) {
-            binding.progressContainer.state = ProgressContainer.State.Notice(
-                R.drawable.img_logo,
-                R.string.error_loading_title,
-                R.string.error_loading_description,
-            ){
-                ordersViewModel.getOrders(OrderStatusType.All)
+            is LoadState.NotLoading -> {
+                if (ordersAdapter.itemCount == 0) {
+                    binding.progressContainer.setButtonTitle(getString(R.string.btn_to_catalog_text))
+                    binding.progressContainer.state = ProgressContainer.State.Notice(
+                        R.drawable.img_logo,
+                        getString(R.string.empty_state_orders_progress_container_title),
+                        getString(R.string.empty_state_orders_progress_container_description)
+                    ) {
+                        navigateTo<CatalogFragment>(false)
+                    }
+                }else {
+                    binding.progressContainer.state = ProgressContainer.State.Success
+                }
             }
         }
     }

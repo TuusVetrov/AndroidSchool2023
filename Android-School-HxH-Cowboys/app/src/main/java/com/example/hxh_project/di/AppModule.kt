@@ -1,7 +1,7 @@
 package com.example.hxh_project.di
 
 import android.app.Application
-import com.example.hxh_project.core.token_manager.TokenManager
+import com.example.hxh_project.data.token_manager.TokenManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

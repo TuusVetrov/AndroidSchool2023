@@ -2,8 +2,9 @@ package com.example.hxh_project.presentation.ui.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hxh_project.core.token_manager.TokenManager
+import com.example.hxh_project.data.token_manager.TokenManager
 import com.example.hxh_project.domain.use_case.ProfileUseCase
+import com.example.hxh_project.utils.extensions.updateStateProperty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,33 +24,54 @@ class ProfileViewModel @Inject constructor(
         checkUserLoggedIn()
     }
 
+    fun clearError() =
+        updateStateProperty(_uiState) { copy( error = null ) }
+
     fun getUserProfile() {
         viewModelScope.launch {
-            _uiState.update { currentState ->
-                currentState.copy(
-                    isLoading = true,
-                )
-            }
+            updateStateProperty(_uiState) { copy( isLoading = true ) }
 
             val response = profileUseCase.getProfile()
             val appVersionResponse = profileUseCase.getAppVersion()
-            _uiState.update { currentState ->
-                currentState.copy(
-                    appVersion = appVersionResponse,
-                )
-            }
+
+            updateStateProperty(_uiState) { copy( appVersion = appVersionResponse ) }
+
             response.onSuccess { user ->
-                _uiState.update { currentState ->
-                    currentState.copy(
+                updateStateProperty(_uiState) {
+                    copy(
                         profile = user.data.profile,
-                        isLoading = false,
                         appVersion = appVersionResponse,
                         error = null,
                     )
                 }
+                getUserImage()
             }.onFailure { message ->
-                _uiState.update { currentState ->
-                    currentState.copy(
+                updateStateProperty(_uiState) {
+                    copy(
+                        isLoading = false,
+                        error = message,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getUserImage() {
+        val imageId = uiState.value.profile?.avatarId ?: return
+
+        viewModelScope.launch {
+            val response = profileUseCase.getUserPhoto(imageId)
+            response.onSuccess { image ->
+                updateStateProperty(_uiState) {
+                    copy(
+                        isLoading = false,
+                        userImage = image,
+                        error = null,
+                    )
+                }
+            }.onFailure { message ->
+                updateStateProperty(_uiState) {
+                    copy(
                         isLoading = false,
                         error = message,
                     )
@@ -59,23 +81,10 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun logout() {
-        viewModelScope.launch {
-            tokenManager.saveToken(null)
-            _uiState.update { currentState ->
-                currentState.copy(
-                    isUserLoggedIn = false,
-                )
-            }
-        }
+        tokenManager.deleteToken()
+        updateStateProperty(_uiState) { copy( isUserLoggedIn = false ) }
     }
 
-    private fun checkUserLoggedIn() {
-        viewModelScope.launch {
-            _uiState.update { currentState ->
-                currentState.copy(
-                    isUserLoggedIn = tokenManager.getToken() != null,
-                )
-            }
-        }
-    }
+    private fun checkUserLoggedIn() =
+        updateStateProperty(_uiState) { copy( isUserLoggedIn = tokenManager.getToken() != null ) }
 }

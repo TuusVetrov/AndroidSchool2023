@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".presentation.ui.place_picker.PlacePickerFragment">
+
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/ivMarker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="29dp"
+        app:srcCompat="@drawable/ic_address_picker"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        style="@style/Theme.AndroidSchoolHxHCowboys.RoundedAppBarLayout"
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_100"
+        android:layout_marginHorizontal="@dimen/normal_200"
+        android:layout_gravity="top"
+        android:background="@drawable/toolbar_bg"
+        >
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            style="@style/Theme.AndroidSchoolHxHCowboys.RoundedToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="center"
+            app:menu="@menu/place_picker_menu"
+            app:navigationIcon="@drawable/ic_close"
+            android:background="@drawable/toolbar_bg"
+            android:backgroundTint="@color/white"
+            app:title="@string/toolbar_house_selection_text" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottomBar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:elevation="0dp"
+        app:cardCornerRadius="@dimen/normal_100"
+        android:layout_marginHorizontal="@dimen/normal_200"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/normal_200"
+        >
+        <TextView
+            android:textAppearance="@style/TextAppearance.Body"
+            android:id="@+id/tvAddress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingVertical="21dp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+    </androidx.cardview.widget.CardView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

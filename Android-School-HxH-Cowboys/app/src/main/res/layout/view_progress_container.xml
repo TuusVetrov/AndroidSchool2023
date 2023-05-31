@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normal_300"
-            android:text="@string/error_loading_title" />
+            android:text="@string/error_on_sign_in" />
 
         <TextView
             style="@style/TextAppearance.LabelMedium"
@@ -54,7 +54,7 @@
             android:id="@+id/textViewNoticeDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/error_loading_description"
+            android:text="@string/error_on_sign_in"
             android:layout_marginTop="@dimen/normal_100"
             />
 

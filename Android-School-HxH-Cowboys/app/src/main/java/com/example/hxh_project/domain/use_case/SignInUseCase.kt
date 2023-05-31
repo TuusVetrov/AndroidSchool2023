@@ -1,8 +1,8 @@
 package com.example.hxh_project.domain.use_case
 
 import com.example.hxh_project.data.remote.utils.ApiState
-import com.example.hxh_project.domain.model.request.AuthRequest
-import com.example.hxh_project.domain.model.response.AuthResponse
+import com.example.hxh_project.data.model.request.AuthRequest
+import com.example.hxh_project.data.model.response.AuthResponse
 import com.example.hxh_project.data.repository.UserRepository
 import javax.inject.Inject
 

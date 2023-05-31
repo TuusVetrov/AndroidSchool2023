@@ -6,12 +6,17 @@
 
     <!-- Base application theme. -->
     <style name="Theme.AndroidSchoolHxHCowboys" parent="Base.V27.Theme">
+        <item name="android:fitsSystemWindows">false</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/smalt</item>
 
-        <item name="colorSurface">@color/smalt</item>
-        <item name="colorOnSurface">@color/smaltOnSurface</item>
 
+        <item name="colorOnSurface">@color/text_primary</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <item name="toolbarStyle">@style/Theme.AndroidSchoolHxHCowboys.Toolbar</item>
         <item name="materialButtonStyle">@style/Theme.AndroidSchoolHxHCowboys.Button</item>
         <item name="textInputStyle">@style/Theme.AndroidSchoolHxHCowboys.TextInputLayout</item>
     </style>

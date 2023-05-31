@@ -1,6 +1,7 @@
 package com.example.hxh_project.presentation.components
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -29,11 +30,11 @@ class ProfileContainer @JvmOverloads constructor(
         jobTitle = root.findViewById(R.id.tvJobTitle)
     }
 
-    fun setImage(imgUrl: String) {
-        userImage.load(imgUrl) {
+    fun setImage(image: Bitmap) {
+        userImage.load(image) {
             crossfade(true)
-            placeholder(R.drawable.img_logo)
-            error(R.drawable.img_logo)
+            placeholder(R.drawable.ic_profile_photo)
+            error(R.drawable.ic_profile_photo)
             transformations(CircleCropTransformation())
         }
     }

@@ -8,6 +8,8 @@
     <dimen name="divider_height">1dp</dimen>
     <dimen name="divider_horizontal_margin">16dp</dimen>
 
+    <dimen name="span_gap_width">16dp</dimen>
+
     <dimen name="preview_border_size">1dp</dimen>
     <dimen name="preview_corner_radius">8dp</dimen>
 
@@ -28,6 +30,9 @@
 
     <dimen name="text_h3">20sp</dimen>
     <dimen name="text_h3_line_extra">4sp</dimen>
+
+    <dimen name="text_h4">16sp</dimen>
+    <dimen name="text_h4_line_extra">2sp</dimen>
 
     <dimen name="text_body_large">16sp</dimen>
     <dimen name="text_body_large_extra">8sp</dimen>

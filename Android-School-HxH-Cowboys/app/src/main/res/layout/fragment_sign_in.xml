@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/normal_200"
-    android:layout_marginEnd="@dimen/normal_200"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     tools:context=".presentation.ui.sign_in.SignInFragment">
 
 
@@ -15,6 +14,7 @@
         style="@style/TextAppearance.H1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/normal_200"
         android:text="@string/sign_in_title"
         app:layout_constraintBottom_toTopOf="@+id/layoutLogin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +28,7 @@
         android:id="@+id/layoutLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/normal_200"
         android:layout_marginTop="@dimen/normal_300"
         android:hint="@string/sign_in_login_hint"
         app:layout_constraintBottom_toTopOf="@+id/layoutPassword"
@@ -48,6 +49,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutPassword"
         android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/normal_200"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/normal_300"
         android:hint="@string/sign_in_password_hint"
@@ -72,6 +74,7 @@
         android:id="@+id/buttonSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/normal_200"
         android:layout_marginTop="@dimen/normal_300"
         app:text="@string/sign_in_action"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,36 +1,43 @@
 package com.example.hxh_project.presentation.ui.profile
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.*
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.hxh_project.R
 import com.example.hxh_project.databinding.FragmentProfileBinding
-import com.example.hxh_project.domain.model.Profile
 import com.example.hxh_project.presentation.ui.catalog.CatalogFragment
-import com.example.hxh_project.presentation.ui.sign_in.SignInFragment
-import com.example.hxh_project.presentation.ui.sign_in.SignInState
-import com.example.hxh_project.utils.State
-import com.google.android.material.snackbar.Snackbar
+import com.example.hxh_project.presentation.ui.orders.OrdersFragment
+import com.example.hxh_project.presentation.ui.settings.SettingsFragment
+import com.example.hxh_project.presentation.ui.utils.SnackbarListener
+import com.example.hxh_project.utils.extensions.navigateLogout
+import com.example.hxh_project.utils.extensions.navigateTo
+import com.example.hxh_project.utils.extensions.setWindowTransparency
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
-    private val profileViewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModels()
+
+
+    private lateinit var exitDialog: AlertDialog
+    private var snackbarListener: SnackbarListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        profileViewModel.getUserProfile()
+        viewModel.getUserProfile()
+        snackbarListener = requireActivity() as? SnackbarListener
     }
 
     override fun onCreateView(
@@ -38,77 +45,82 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
+        createExitDialog()
+        setListeners()
+
+        setWindowTransparency(binding.root) { statusBarSize, _ ->
+            binding.appBarLayout.updatePadding(top = statusBarSize)
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observeState()
-        toolBarMenuLister()
+    }
 
-        val exitDialog = AlertDialog.Builder(requireContext())
+    private fun createExitDialog() {
+        exitDialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.btn_logout_text)
             .setMessage(R.string.exit_dialog_message)
             .setPositiveButton(R.string.btn_logout_text) { _, _ ->
-                profileViewModel.logout()
-                navToLogIn()
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        viewModel.logout()
+                    }
+                    navigateLogout()
+                }
             }
             .setNegativeButton(R.string.btn_cancel_text, null)
             .create()
+    }
 
-        binding.btnLogOut.setOnClickListener {
-            exitDialog.show()
+    private fun setListeners() {
+        toolBarMenuLister()
+
+        binding.btnLogOut.setOnClickListener { exitDialog.show() }
+
+        binding.btnOrders.setOnClickListener { navigateTo<OrdersFragment>(true) }
+
+        binding.btnSettings.setOnClickListener { navigateTo<SettingsFragment>(true) }
+    }
+
+    private fun toolBarMenuLister() {
+        binding.toolbarProfile.setNavigationOnClickListener {
+            parentFragmentManager.popBackStack()
+            navigateTo<CatalogFragment>(false)
         }
     }
 
     private fun observeState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                profileViewModel.uiState.collect {
+                viewModel.uiState.collect {
                     profileStateHandler(it)
                 }
             }
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun profileStateHandler(state: ProfileState) {
         if (!state.isUserLoggedIn) {
-            navToLogIn()
+            navigateLogout()
+            return
         }
 
-        val appText = getText(R.string.app_version)
-        binding.tvAppVersion.text = "$appText ${state.appVersion}"
+        binding.tvAppVersion.text = state.appVersion
 
         binding.profileContainer.apply {
-            state.profile?.let { setImage(it.avatarId ) }
+            state.userImage?.let { setImage(it) }
             setUsername("${state.profile?.name} ${state.profile?.surname}")
             setJobTitle(state.profile?.occupation ?: "")
         }
 
         val errorMessage = state.error
         if (errorMessage != null) {
-            view?.let {
-                Snackbar.make(it, errorMessage, Snackbar.LENGTH_SHORT).apply {
-                    setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.error))
-                    animationMode = Snackbar.ANIMATION_MODE_FADE
-                    show()
-                }
-            }
-        }
-    }
-
-    private fun toolBarMenuLister() {
-        binding.toolbarProfile.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-    }
-
-    private fun navToLogIn() {
-        parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        parentFragmentManager.commit {
-            replace<SignInFragment>(R.id.main_activity_container)
+            snackbarListener?.showError(errorMessage)
+            viewModel.clearError()
         }
     }
 }

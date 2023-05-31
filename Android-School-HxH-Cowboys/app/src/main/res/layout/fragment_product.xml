@@ -12,6 +12,7 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:liftOnScroll="true"
         >
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbarProduct"
@@ -27,12 +28,14 @@
             />
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:background="@color/white"
+        android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        >
         <com.example.hxh_project.presentation.components.ProgressContainer
             android:id="@+id/progressContainer"
             android:layout_width="match_parent"
@@ -44,4 +47,14 @@
                 />
         </com.example.hxh_project.presentation.components.ProgressContainer>
     </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        style="@style/Theme.AndroidSchoolHxHCowboys.Button"
+        android:id="@+id/btnBuyNow"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:textAllCaps="true"
+        android:text="@string/btn_buy_now" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

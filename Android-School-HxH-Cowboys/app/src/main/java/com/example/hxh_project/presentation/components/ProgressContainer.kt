@@ -41,6 +41,10 @@ class ProgressContainer @JvmOverloads constructor(
         buttonUpdate = root.findViewById(R.id.buttonNoticeUpdate)
     }
 
+    fun setButtonTitle(title: String) {
+        buttonUpdate.text = title
+    }
+
     override fun onViewAdded(child: View?) {
         super.onViewAdded(child)
 
@@ -67,8 +71,8 @@ class ProgressContainer @JvmOverloads constructor(
                 findContentView()?.isVisible = false
 
                 imageView.setImageResource(state.imageId)
-                messageTitle.text = resources.getText(state.message)
-                messageDescription.text = resources.getText(state.description)
+                messageTitle.text = state.message
+                messageDescription.text = state.description
                 buttonUpdate.setOnClickListener(state.buttonClickListener)
             }
             is State.Success -> {
@@ -82,8 +86,8 @@ class ProgressContainer @JvmOverloads constructor(
     sealed class State {
         object Loading: State()
         data class Notice(val imageId: Int,
-                          val message: Int,
-                          val description: Int,
+                          val message: String,
+                          val description: String,
                           val buttonClickListener: OnClickListener,
                           ): State()
         object Success: State()

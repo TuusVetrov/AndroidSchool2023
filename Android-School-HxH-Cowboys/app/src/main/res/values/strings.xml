@@ -1,15 +1,31 @@
 <resources>
     <string name="app_name">Android-School-HxH-Cowboys</string>
+    <string name="app_version">Приложение %1$s (%2$s)</string>
 
-    <string name="error_loading_title">Произошла непредвиденная ошибка</string>
-    <string name="error_loading_description">Детальный текст ошибки, занимающий несколько строк</string>
+    <string name="error_on_sign_in">Произошла непредвиденная ошибка</string>
+    <string name="error_progress_container_title">@string/error_on_sign_in</string>
+    <string name="error_on_sign_in_description">Детальный текст ошибки, занимающий несколько строк</string>
+    <string name="error_on_loading_profile">Не удалось загрузить профиль пользователя</string>
+    <string name="error_on_loading_image_profile">Не удалось загрузить фотографию пользователя</string>
+    <string name="error_on_update_profile">Во время изменения профиля произошла ошибка</string>
+    <string name="error_on_choose_address">Вы не выбрали адрес доставки!</string>
+    <string name="error_on_loading_orders">При загрузке моих заказов произошла ошибка</string>
+    <string name="error_on_loading_catalog">При загрузке каталога произошла ошибка</string>
+    <string name="error_on_placing_an_order">Во время оформления заказа произошла ошибка</string>
+    <string name="error_on_cancel_order">Произошла ошибка во время отмены заказа</string>
+
+    <string name="network_error_message">Сетевая ошибка</string>
+    <string name="remote_error_message">Ошибка сервера</string>
+    <string name="unknown_error_message">Что-то пошло не так!</string>
 
     <string name="empty_state_title">Товары не были обнаружены</string>
     <string name="empty_state_description">Попробуйте обновить, вдруг товары появились</string>
-    <string name="update_button">Обновить</string>
+    <string name="empty_state_orders_progress_container_title">Заказов не обнаружено</string>
+    <string name="empty_state_orders_progress_container_description">Закажите что-нибудь и заказы появятся тут</string>
+
+
 
     <string name="stub_text">Text</string>
-    <string name="buy_button">купить</string>
     <string name="product_preview_text">product preview</string>
     <string name="menu_item_profile">Профиль</string>
     <string name="catalog_title">Каталог</string>
@@ -17,24 +33,26 @@
     <string name="sign_in">Войти</string>
 
     <string name="btn_buy_now">Купить сейчас</string>
+    <string name="buy_button">Купить</string>
+    <string name="btn_orders_text">Мои заказы</string>
+    <string name="btn_settings_text">Настройки</string>
+    <string name="btn_logout_text">Выйти</string>
+    <string name="btn_cancel_text">Отмена</string>
+    <string name="btn_to_catalog_text">В каталог</string>
+    <string name="update_button">Обновить</string>
+
 
     <string name="sign_in_title">@string/sign_in</string>
     <string name="sign_in_login_hint">Логин</string>
     <string name="sign_in_password_hint">Пароль</string>
     <string name="sign_in_action">@string/sign_in</string>
 
-    <string name="app_version">Приложение</string>
-
     <string name="field_text_error">Поле заполнено неверно</string>
-    <string name="btn_orders_text">Мои заказы</string>
-    <string name="btn_settings_text">Настройки</string>
-    <string name="btn_logout_text">Выйти</string>
-    <string name="btn_cancel_text">Отмена</string>
     <string name="exit_dialog_message">Вы уверены, что хотите выйти?</string>
     <string name="size_text">Размер</string>
 
-    <string name="all_orders">Все</string>
-    <string name="active_orders">Активные</string>
+    <string name="all_orders_tab">Все</string>
+    <string name="active_orders_tab">Активные</string>
 
     <string name="orders_toolbar_name">Мои заказы</string>
     <string name="order_info">Заказ №%1$d от %2$s %3$s</string>
@@ -45,7 +63,43 @@
     <string name="order_status_done">Доставлен</string>
     <string name="order_status_cancelled">Отменен</string>
 
+    <string name="check_out_success">Заказ №%1$d от %2$s %3$s был успешно оформлен</string>
+    <string name="cancel_order_success">Заказ №%1$d от %2$s %3$s был успешно отменен</string>
+    <string name="settings_successfully_changed">Профиль был успешно изменен</string>
+
     <string name="error_message_email_invalid">Проверьте корректность вашего email</string>
     <string name="error_message_password_invalid">Пароль должен содержать от 8 cимволов</string>
+
+
     <string name="menu_item_cancel">Отменить</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bottom_sheet_job_dev">Разработчик</string>
+    <string name="bottom_sheet_job_test">Тестировщик</string>
+    <string name="bottom_sheet_job_manager">Менеджер</string>
+    <string name="bottom_sheet_job_other">Другое</string>
+    <string name="bottom_sheet_take_pic">Сделать снимок</string>
+    <string name="bottom_sheet_from_galary">Выбрать из галереи</string>
+    <string name="menu_item_сhoose">Выбрать</string>
+
+    <string name="btn_checkout_text">КУПИТЬ ЗА %1$s</string>
+    <string name="btn_buy_now_text">Купить сейчас</string>
+    <string name="toolbar_house_selection_text">Выбор дома</string>
+
+
+    <string name="message_field_size_invalid">Выберете размер</string>
+    <string name="message_field_address_invalid">Выберете адрес</string>
+    <string name="message_field_date_invalid">Выберете дату доставки</string>
+
+    <string name="message_field_name_invalid">Введите корректное имя</string>
+    <string name="message_field_surname_invalid">Введите корректную фамилию</string>
+    <string name="message_field_other_job_invalid">Введите корректное названия рода деятельности</string>
+
+    <string name="filed_name_text">Имя</string>
+    <string name="filed_surname_text">Фамилия</string>
+    <string name="filed_job_text">Род деятельности</string>
+    <string name="filed_other_job_text">Другой род деятельности</string>
+
+    <string name="file_provider_name" translatable="false">.fileProvider</string>
+    <string name="btn_retry">Повторить</string>
 </resources>
